@@ -1,3 +1,111 @@
+# Prgm-14
+```
+#include <stdio.h>
+int main()
+{
+	int a[2] = { 1, 2 };
+	void* ptr = &a;
+	ptr = ptr + sizeof(int);
+	printf("%d", *(int*)ptr);
+	return 0;
+}
+```
+### Output of Prgm-13
+```
+2
+```
+# Prgm-13
+```
+#include <stdio.h>
+int main()
+{
+	int a = 10;
+	void* ptr = &a;
+	printf("%d", *(int*)ptr);
+	return 0;
+}
+```
+### Output of Prgm-13
+```
+10
+We are type casting to int* and then dereferencing back to get the value.
+```
+# Prgm-12
+```
+#include <stdio.h>
+int main()
+{
+	int a = 10;
+	char b = 'x';
+
+	void* p = &a;
+	p = &b;
+	printf("%c",*p);
+}
+```
+### Output of Prgm-12
+```
+There will be an error because we are dereferencing a void pointer and thats not allowed.
+```
+## Learning: %p is used while handling pointers.
+# Prgm-11
+```
+#include <stdio.h>
+int main()
+{
+	float i=10,*j;
+	void *k;
+	j=k=&i;
+	j++;
+	k++;
+	printf("%u %u",j,k);
+}
+```
+### Output of Prgm-11
+```
+There is a difference of 3 in address. There should have been an error because pointer arithmetic on void* is not allowed unless the void pointer is appropriately typecasted. Actually some compilers do allow thisc gcc is one of them.
+```
+# Prgm-10
+```
+#include <stdio.h>
+int main()
+{
+	float i=10,*j;
+	void *k;
+	k=&i;
+	j=k;
+	printf("%f",*j);
+}
+```
+### Output of Prgm-10
+```
+10.00000 
+There is no error even though it looks like it should because, there is no need for typecasting while assigning the value to and from k because conversions are applied automatically when other pointer types are assigned to and from void*.
+```
+## Learning: *ptr++ increments the pointer and not the value pointed by it, whereas, ++*ptr increments the value being pointed to by ptr
+# Prgm-9
+```
+#include <stdio.h>
+int main()
+{
+	int i=10;
+	int *ptr;
+	ptr=&i;
+	printf("%d\n",++*ptr);
+	printf("%u\n",ptr);
+	*ptr++;
+	printf("%u\n",ptr);
+	(*ptr)++;
+	printf("%d\n",*ptr);
+}
+```
+### Output of Prgm-9
+```
+11
+106770460
+106770464
+-49914576 Of Course this will be a garbage value since ptr now points to prev address + 4
+```
 # Prgm-8
 ```
 #include <stdio.h>
