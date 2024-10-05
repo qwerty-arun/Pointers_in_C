@@ -1,3 +1,24 @@
+# Prgm-8
+```
+#include <stdio.h>
+int main()
+{
+	int i=20;
+	int *ptr=&i;
+	int *ptr1=ptr;
+	printf("%u \n",ptr);
+	printf("%d \n",++*ptr);
+	printf("%d \n",(*ptr1)++);
+	printf("%d \n",*ptr1);
+}
+```
+## Output of Prgm-8
+```
+342683476
+21
+21
+22 Post increment is done here.
+```
 ## Learnings: ++*ptr does the same job as (*ptr)++
 # Prgm-7
 ```

@@ -1,15 +1,11 @@
 #include <stdio.h>
 int main()
 {
-	float *code(float *);
-	float p=25.5,*q;
-	q=&p;
-	printf("Before call=%u\n",q);
-	q=code(&p);
-	printf("Before call=%u",q);
-}
-float *code(float *r)
-{
-	r=r+1;
-	return r;
+	int i=20;
+	int *ptr=&i;
+	int *ptr1=ptr;
+	printf("%u \n",ptr);
+	printf("%d \n",++*ptr);
+	printf("%d \n",(*ptr1)++);
+	printf("%d \n",*ptr1);
 }
