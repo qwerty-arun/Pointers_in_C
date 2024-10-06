@@ -1,9 +1,8 @@
 #include <stdio.h>
 int main()
 {
-	int a[2] = { 1, 2 };
-	void* ptr = &a;
-	ptr = ptr + sizeof(int);
-	printf("%d", *(int*)ptr);
-	return 0;
+	float *p1,i=25.50;
+	char *p2;
+	p1=&i;
+	p2=&i;
 }

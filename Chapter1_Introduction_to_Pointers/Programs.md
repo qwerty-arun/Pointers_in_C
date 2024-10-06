@@ -1,3 +1,31 @@
+# Prgm-16
+```
+```
+## Learnings
+- A null pointer is a pointer, which doesn't point anywhere. </br>
+- A NULL macro is used to represent the null pointer in source code. It has a value 0 associated with it.</br>
+- A null string is nothing but an empty string.</br>
+- The ASCII NUL character has all its bits as 0 but doesn't have any relationship with the null pointer.</br>
+- A NULL pointer is not the same as uninitialised pointer.</br>
+- `int ***i` means 'i' is a pointer to a pointer to a pointer to an int.</br>
+- `char ****k` means 'k' is a pointer to a pointer to a pointer to a pointer to a char.</br>
+- `void f(int *,char*)` stands for 'f' is a function which receives an int pointer and a char pointer and returns nothing.</br>
+- `float *g(float*,float**)` means 'g' is a function which receives a float pointer and a pointer to a float pointer and returns a float pointer.</br>
+- `int **h(float *,char **)` 'h'receives a float pointer and a pointer to a char pointer and int turn returns a pointer to an int pointer.</br>
+# Prgm-15
+```
+#include <stdio.h>
+int main()
+{
+	int *p1,i=25;
+	void *p2;
+	p1=&i;
+	p2=&i;
+	p1=p2;
+	p2=p1;
+}
+```
+The above code won't show any error.
 # Prgm-14
 ```
 #include <stdio.h>
@@ -63,7 +91,7 @@ int main()
 ```
 ### Output of Prgm-11
 ```
-There is a difference of 3 in address. There should have been an error because pointer arithmetic on void* is not allowed unless the void pointer is appropriately typecasted. Actually some compilers do allow thisc gcc is one of them.
+There is a difference of 3 in address. There should have been an error because pointer arithmetic on void* is not allowed unless the void pointer is appropriately typecasted. Actually some compilers do allow this and gcc is one of them.
 ```
 # Prgm-10
 ```
