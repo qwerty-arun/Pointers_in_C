@@ -19,15 +19,15 @@ void swap(int *c, int *d)
 void exchange(int **cc,int **dd)
 {
 	int t;
-	t=*cc;
-	**cc=*dd;
+	t=**cc;
+	**cc=**dd;
 	**dd=t;
 }
 ```
 ### Results of Prgm-18
 ```
 Before swap, c=10 d=20
-After swap, c=-1712939324 d=-1712939328
+After swap, c=20 d=10
 ```
 # Prgm-17
 ```

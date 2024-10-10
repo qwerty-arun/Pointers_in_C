@@ -17,7 +17,7 @@ void swap(int *c, int *d)
 void exchange(int **cc,int **dd)
 {
 	int t;
-	t=*cc;
-	**cc=*dd;
+	t=**cc;
+	**cc=**dd;
 	**dd=t;
 }
