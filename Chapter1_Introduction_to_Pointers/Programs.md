@@ -1,5 +1,117 @@
+# Prgm-18
+```
+#include <stdio.h>
+void exchange(int **c,int **d);
+void swap(int *c, int *d);
+int main()
+{ 
+	int c=10,d=20;
+	printf("Before swap, c=%d d=%d\n",c,d);
+	swap(&c,&d);
+	printf("After swap, c=%d d=%d\n",c,d);
+}
+
+void swap(int *c, int *d)
+{
+	exchange(&c,&d);	
+}
+
+void exchange(int **cc,int **dd)
+{
+	int t;
+	t=*cc;
+	**cc=*dd;
+	**dd=t;
+}
+```
+### Results of Prgm-18
+```
+Before swap, c=10 d=20
+After swap, c=-1712939324 d=-1712939328
+```
+# Prgm-17
+```
+#include <stdio.h>
+void change(int c,int d);
+void swap(int c, int d);
+int main()
+{ 
+	int c=10,d=20;
+	printf("We are in main().. \n");
+	printf("Address of c=%u Address of d=%u\n",&c,&d);
+	printf("\nBefore Swap(), c=%d d=%d\n",c,d);
+	swap(c,d);
+	printf("Back to main()..\n");
+	printf("\n After swap(),c=%d,d=%d",c,d);
+}
+
+void swap(int c, int d)
+{
+	printf("We are in swap()..\n");
+	printf("Address of c=%u Address of d=%u\n",&c,&d);
+	printf("\nBefore Swap(), c=%d d=%d\n",c,d);
+	change(c,d);
+	printf("Back to swap()...\n");
+	printf("After change(), c=%d, d=%d\n",c,d);
+}
+
+void change(int c,int d)
+{
+	int t;
+	printf("We are in change()...\n");
+	printf("Address of c=%u Address of d=%u\n",&c,&d);
+	printf("\nBefore interchanging, c=%d d=%d\n",c,d);
+	t=c;
+	c=d;
+	d=t;
+	printf("After interchanging, c=%d, d=%d\n",c,d);
+}
+```
+### Results of Prgm-17
+```
+We are in main().. 
+Address of c=1288288048 Address of d=1288288052
+
+Before Swap(), c=10 d=20
+We are in swap()..
+Address of c=1288288028 Address of d=1288288024
+
+Before Swap(), c=10 d=20
+We are in change()...
+Address of c=1288287980 Address of d=1288287976
+
+Before interchanging, c=10 d=20
+After interchanging, c=20, d=10
+Back to swap()...
+After change(), c=10, d=20
+Back to main()..
+After main(),c=10,d=20
+We never really passed any pointer here, so the swap happened inside functions, when control comes back to main(), the local variable 'c' and 'd' have the same values '10' and '20' respectively. 
+```
 # Prgm-16
 ```
+#include <stdio.h>
+int main()
+{ 
+	char c,*cc;
+	int i; float f;long l;
+	c='Z'; i=15;l=7777;f=3.14;
+	cc=&c;
+	printf("c=%c cc=%p\n",*cc,cc);
+	cc=&i;
+	printf("c=%d cc=%p\n",*cc,cc);
+	cc=&l;
+	printf("c=%ld cc=%p\n",*cc,cc);
+	cc=&f;
+	printf("c=%f cc=%p\n",*cc,cc);
+}
+```
+### Results of Prgm-16
+```
+c=Z cc=0x7ffdd541b04f
+c=15 cc=0x7ffdd541b050
+c=97 cc=0x7ffdd541b058
+c=0.000000 cc=0xffffffc3
 ```
 ## Learnings
 - A null pointer is a pointer, which doesn't point anywhere. </br>
