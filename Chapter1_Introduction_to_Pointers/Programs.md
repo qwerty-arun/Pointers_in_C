@@ -1,3 +1,53 @@
+## "No matter how much time you have spent with pointers you would always find some applications of it what would leave you guessing"
+# Prgm-20
+```
+#include <stdio.h>
+int main()
+{
+	int i=10;
+	printf("\n Value of i=%d Address of i=%u",i,&i);
+	&i=7800;
+	printf("\n New Value of i=%d New Address of i=%u", i,&i);
+}
+```
+## Results of Prgm-20
+```
+program.c:6:11: error: lvalue required as left operand of assignment
+    6 |         &i=7800;
+    
+    If we change the code slightly:-
+program.c:6:9: error: invalid type argument of unary ‘*’ (have ‘int’)
+    6 |         *i=7800;
+      |         ^~
+```
+## int *b = a * 2 -> If 'a' is a pointer to int, then we have `int` and `int*` as operands, we can't perform this type of arithmetic
+# Prgm-19
+```
+#include <stdio.h>
+int main()
+{
+	char *c = 4000;
+	int *i = 4000;
+	float *f = 4000;
+	long *l = 4000;
+	double *d = 4000;
+	printf("\n c=%u , c+1 = %u",c,c+1);
+	printf("\n i=%u , i+1 = %u",i,i+1);
+	printf("\n f=%u , f+1 = %u",f,f+1);
+	printf("\n l=%u , l+1 = %u",l,l+1);
+	printf("\n d=%u , d+1 = %u",d,d+1);
+}
+```
+## Results of Prgm-19
+```
+ c=4000 , c+1 = 4001
+ i=4000 , i+1 = 4004
+ f=4000 , f+1 = 4004
+ l=4000 , l+1 = 4008
+ d=4000 , d+1 = 4008
+```
+## Return addressing of a local variable results in an error
+## **ptr***ptr will compute the square of the value stored in ptr
 # Prgm-18
 ```
 #include <stdio.h>
