@@ -1,27 +1,12 @@
 #include <stdio.h>
-float a =3.14;
-float **z;
-float **y;
-float ***x;
-float ****v;
-float ****w;
-float **fun1(float*);
-float ****fun2(float***);
 int main()
 {
-	z=fun1(&a);
-	printf("%u %f",z,**z);
+	int s[3][2]={{1000,12},{1004,16},{1008,45}};
+	int i;
+	for(i=0;i<4;i++)
+	{
+		printf("\n Address of %dth 1-D array =%u",i,s[i]);
+		printf("\n First value of %dth 1-D array =%d",i,s[i][1]);
+	}
+	return 0;
 }
-float **fun1(float *z)
-{
-	y=&z;
-	v=fun2(&y);
-	return(**v);
-}
-
-float ****fun2(float ***x)
-{
-	w=&x;
-	return(w);
-}
-
