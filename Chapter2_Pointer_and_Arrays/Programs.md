@@ -1,3 +1,358 @@
+## Array of pointers is mainly used to store several strings in memory.
+## Array of pointers: int *arr[4] defines an array of pointers for 4 integers. Then arr[0]=&i and so on for storing addresses. Each element in the array stores addresses. `*arr[m]` gives value at address.
+# Prgm-11 (Returning a 3D array)
+```
+#include <stdio.h> 
+#define SET 2
+#define ROW 3
+#define COL 4 
+int *fun1();
+int (*fun2())[COL];
+int (*fun3())[ROW][COL];
+int (*fun4())[SET][ROW][COL];
+int main()
+{
+	int i,j,k;
+	int *a;
+	int (*b)[COL];
+	int *p;
+	
+	int (*c)[ROW][COL];
+	int (*d)[SET][ROW][COL]; 
+	a=fun1();
+	printf("\nArray a[][][] in main\n");
+
+	for(i=0;i<SET;i++)
+	{
+	for(j=0;j<ROW;j++)
+	{
+		for(k=0;k<COL;k++)
+			printf("%d ",*(a+i*ROW*COL+j*COL+k));
+		printf("\n");
+	}
+		printf("\n");
+	}
+
+	b=fun2();
+	printf("\n Array b[][][] in main()\n");
+	for(i=0;i<SET;i++)
+	{
+		p=(int *)(b+i*ROW);
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",*p);
+				p++;
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+	
+	c=fun3();
+	printf("\n Array c[][][] in main(): \n");
+	for(i=0;i<SET;i++)
+	{
+		p=(int *)(c+i);
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",*p);
+				p++;
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+
+	d=fun4();
+	printf("\n Array d[][][] in main(): \n");
+	for(i=0;i<SET;i++)
+	{
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",(*d)[i][j][k]);
+				p++;
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+	return 0;
+}
+
+int *fun1()
+{
+	static int a[SET][ROW][COL]= 
+		{
+			{
+			1,2,3,4,
+			5,6,7,8,
+			9,0,1,6
+			},
+			{
+			3,6,5,8,
+			1,9,4,10,
+			6,3,9,8
+			}
+		};
+	int i,j,k;
+	printf("\nArray a[][][] in fun1(): \n");
+	for(i=0;i<SET;i++)
+	{
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",a[i][j][k]);
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+	return (int*)a;
+}
+
+int (*fun2())[COL]
+{
+	static int b[SET][ROW][COL]={
+		{
+		9,5,7,1,
+		4,1,0,5,
+		6,7,2,0
+		},
+		{
+		3,8,9,18,
+		7,9,4,2,
+		3,2,1,0
+		}
+	};
+	int i,j,k;
+	printf("\nArray b[][][] in fun2():\n");
+	for(i=0;i<SET;i++)
+	{
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",b[i][j][k]);
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+	return (int(*)[COL])b;
+
+}
+
+int (*fun3())[ROW][COL]
+{
+	static int c[SET][ROW][COL]=
+		{
+			{
+			6,9,8,3,
+			4,0,8,1,
+			3,1,2,7 
+			},
+			{
+			3,5,8,1,
+			0,9,7,4,
+			1,1,9,6
+			}
+		};
+	int i,j,k;
+	printf("\nArray c[][][] in fun3():\n");
+	for(i=0;i<SET;i++)
+	{
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",c[i][j][k]);
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+		return (int (*)[ROW][COL])c;
+}
+
+
+int (*fun4())[SET][ROW][COL]
+{
+	static int d[SET][ROW][COL]=
+		{
+			{
+			6,9,8,3,
+			4,0,8,1,
+			3,1,2,7 
+			},
+			{
+			3,5,8,1,
+			0,9,7,4,
+			1,1,9,6
+			}
+		};
+	int i,j,k;
+	printf("\nArray d[][][] in fun3():\n");
+	for(i=0;i<SET;i++)
+	{
+		for(j=0;j<ROW;j++)
+		{
+			for(k=0;k<COL;k++)
+			{
+				printf("%d ",d[i][j][k]);
+			}
+			printf("\n");
+		}
+		printf("\n");
+	}
+		return (int (*)[SET][ROW][COL])d;
+}
+```
+## Similarly, there are different ways to return a 3D array: a pointer to an integer, a pointer to the zeroth 1D array, a pointer to the zeroth 2D array or a pointer to the 3D array itself.
+## There are 3 ways to return a 2D array: a pointer to an integer, a pointer to the zeroth 1D array, a pointer to the 2D array
+# Prgm-10 (Returning a 2D array)
+```
+#include <stdio.h>
+#define ROW 3
+#define COL 4 
+int *fun1();
+int (*fun2())[COL];
+int (*fun3())[ROW][COL];
+int main()
+{
+	int i,j;
+	int *a;
+	int (*b)[COL];
+	int *p;
+	
+	int (*c)[ROW][COL];
+	a=fun1();
+
+	printf("\nArray a[][] in main()\n");
+	for(i=0;i<ROW;i++)
+	{
+		for(j=0;j<COL;j++)
+			printf("%d ",*(a+i*COL+j));
+		printf("\n");
+	}
+
+	b=fun2();
+	printf("\n Array b[][] in main()\n");
+	for(i=0;i<ROW;i++)
+	{
+		p=b+i;
+		for(j=0;j<COL;j++)
+		{
+			printf("%d ",*p);
+		p++;
+		}
+		printf("\n");
+	}
+	
+	c=fun3();
+	printf("\n Array c[][] in main(): \n");
+	for(i=0;i<ROW;i++)
+	{
+		for(j=0;j<COL;j++)
+			printf("%d ",(*c)[i][j]);
+		printf("\n");
+	}
+
+	return 0;
+}
+
+int *fun1()
+{
+	static int a[ROW][COL]= {
+			1,2,3,4,
+			5,6,7,8,
+			9,0,1,6
+		};
+	int i,j;
+	printf("\nArray a[][] in fun1(): \n");
+	for(i=0;i<ROW;i++)
+	{
+		for(j=0;j<COL;j++)
+			printf("%d ",a[i][j]);
+		printf("\n");
+	}
+	return (int*)a;
+}
+
+int (*fun2())[COL]
+{
+	static int b[ROW][COL]={
+		9,5,7,1,
+		4,1,0,5,
+		6,7,2,0
+	};
+	int i,j;
+	printf("\nArray b[][] in fun2():\n");
+	for(i=0;i<ROW;i++)
+	{
+		for(j=0;j<COL;j++)
+			printf("%d ",b[i][j]);
+		printf("\n");
+	}
+	return b;
+
+}
+
+int (*fun3())[ROW][COL]
+{
+	static int c[ROW][COL]={
+		6,9,8,3,
+		4,0,8,1,
+		3,1,2,7 };
+	int i,j;
+	printf("\nArray c[][] in fun3():\n");
+	for(i=0;i<ROW;i++)
+	{
+		for(j=0;j<COL;j++)
+			printf("%d ",c[i][j]);
+		printf("\n");
+	}
+		return (int (*)[ROW][COL])c;
+}
+```  
+## 
+```
+Array a[][] in fun1(): 
+1 2 3 4 
+5 6 7 8 
+9 0 1 6 
+
+Array a[][] in main()
+1 2 3 4 
+5 6 7 8 
+9 0 1 6 
+
+Array b[][] in fun2():
+9 5 7 1 
+4 1 0 5 
+6 7 2 0 
+
+ Array b[][] in main()
+9 5 7 1 
+4 1 0 5 
+6 7 2 0 
+
+Array c[][] in fun3():
+6 9 8 3 
+4 0 8 1 
+3 1 2 7 
+
+ Array c[][] in main(): 
+6 9 8 3 
+4 0 8 1 
+3 1 2 7 
+```
 # Prgm-9 (Passing 3D array to a function)
 ```
 #include <stdio.h>
