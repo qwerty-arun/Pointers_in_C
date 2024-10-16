@@ -1,3 +1,83 @@
+# Prgm-15
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char a[]="Visual C++";
+	char *b="Visual C++";
+	printf("\n%d %d",sizeof(a),sizeof(b));
+	printf("\n%d %d",sizeof(*a),sizeof(*b));
+}
+```
+## Output of Prgm-15
+```
+11 8 Why 8? 11 is understandable because of '\0' at the end of a[].
+1 1
+Is it because it takes only one string which is 'Visual' and then '\0' but where did the extra byte come from? Turns out this wrong way to calculate.
+Correct Explanation: The size of a pointer is typically 4 bytes on a 32-bit system or 8 bytes on a 64-bit system. Assuming we are on a 64-bit system, sizeof(b) will return 8 bytes.
+```
+# Prgm-14
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char a[]="Visual C++";
+	char *b="Visual C++";
+	printf("\n%d %d",strlen(a),strlen(b));
+	printf("\n%d %d",sizeof(*a),sizeof(*b));
+}
+```
+## Output of Prgm-14
+```
+10 10
+1 1
+*a and *b both yield a character 'V', whose size is one byte.
+```
+# Prgm-13
+```
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+	int b[]= {10,20,30,40,50};
+	int i,*k;
+	k=&b[4]-4;
+	for(i=0;i<=4;i++)
+	{
+		printf("%d ",*k);
+		k++;
+	}
+}
+```
+## Output of Prgm-13
+```
+10 20 30 40 50
+At first it looks like `&b[4]-4` will point to 4th element of array which is '40' but it actually means address of integer which is 4 integers to the left of the integer whose address if `&b[4]`.
+Remember its the same as pointer arithmetic like `b+1` which points to the next element.
+```
+# Prgm-12
+```
+#include <stdio.h>
+int main()
+{
+	int a[]={10,20,30,40,50};
+	int j;
+	for(j=0;j<5;j++)
+	{
+		printf("\n%d",*a);
+		a++;
+	}
+	return 0;
+}
+```
+## Output of Prgm-12
+```
+error: cannot increment value of type 'int[5]'
+                a++;
+                ~^
+```
 ## Array of pointers is mainly used to store several strings in memory.
 ## Array of pointers: int *arr[4] defines an array of pointers for 4 integers. Then arr[0]=&i and so on for storing addresses. Each element in the array stores addresses. `*arr[m]` gives value at address.
 # Prgm-11 (Returning a 3D array)
