@@ -1,3 +1,314 @@
+# Prgm-28
+```
+#include <stdio.h>
+int main()
+{
+	static int a[] = {0,1,2,3,4};
+	static int *p[] = {a,a+1,a+2,a+3,a+4};
+	
+	int **ptr=p;
+
+	**ptr++;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+
+	*++*ptr;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+
+	++**ptr;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+}
+```
+## Output of Prgm-28
+```
+1 1 1
+1 2 2
+1 2 3
+Explanation: **ptr++ increments the pointer.
+			So the first printf prints 1 1 1
+	
+			*++*ptr is evaluated as*(++(*ptr)) increments the value at ptr to next one. Now p[1] and p[2] will be same
+			Note that ptr itself is not incremented so its is still p+1.
+			
+			++**ptr is evaluated as ++(*(*ptr)) and 2 is incremented to 3
+			ptr is still p+1
+			*ptr-a will be a+2-a which is 2
+			**ptr will be 3 now.
+```
+# Prgm-27
+```
+#include <stdio.h>
+int main()
+{
+	static int a[] = {0,1,2,3,4};
+	static int *p[] = {a,a+1,a+2,a+3,a+4};
+	
+	int **ptr=p;
+
+	ptr++;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+
+	*ptr++;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+
+	*++ptr;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+
+	++*ptr;
+	printf("\n%d %d %d",ptr-p,*ptr-a,**ptr);
+}
+```
+## Output of Prgm-27
+```
+1 1 1
+2 2 2 
+3 3 3
+3 4 4
+Explanation: ptr++ will point to next integer pointer in the array p[].
+	Now ptr will contain the address of p+1. Therefore ptr-p will give us p+1-p which is 1.
+	*ptr will give us &a[1] and then *ptr-a will give us &a[1]-&a[0] which is again 1.
+	**ptr will yield 1.
+
+	*ptr++ will increment the pointer. 
+	ptr-p will give us p+2-p which is 2.
+	*ptr-a will give us a+2-a which is 2.
+	**ptr will give us a[2] which is 2.
+
+	In *++ptr, ptr is incremented and then the value at this address is obtained. Similarly, the output will be 3 3 3
+
+	In ++*ptr, the value at the ptr is incremented which is a+3 incrementing to a+4.
+	ptr-p will give us the same 3.
+	*ptr-a will be a+4-a which will be 4.
+	**ptr will give us a[4] which is 4 again.
+```
+## a is the base address of a[], *a will be '0'.
+## p will the base address of p[], *p will be 'a' or base address of a[], **p will give us '0' or a[0]
+## ptr will hold the base address of p[], *ptr will be &a[0], and **ptr will give us '0' or a[0]
+# Prgm-26
+```
+int main()
+{
+	static int a[] = {0,1,2,3,4};
+	static int *p[] = {a,a+1,a+2,a+3,a+4};
+	int **ptr=p;
+	printf("\n%u %d",a,*a);
+	printf("\n%u %u %d",p,*p,**p);
+	printf("\n%u %u %d",ptr,*ptr,**ptr);
+}
+```
+## Output of Prgm-26
+```
+119775280 0
+119775312 119775280 0
+119775312 119775280 0
+```
+## But what is ptr[-i]? Its nothing but *(ptr-i), as 'i' increments  we access elements from the end of the array
+# Prgm-25
+```
+#include <stdio.h>
+int main()
+{
+	int arr[]={1,2,3,4,5};
+	int i,*ptr;
+	for(ptr=arr+4,i=0;i<=4;i++)
+		printf("%d ",ptr[-i]);
+}
+```
+## Output of Prgm-25
+```
+5 4 3 2 1
+```
+# Prgm-24
+```
+#include <stdio.h>
+int main()
+{
+	int arr[]={1,2,3,4,5};
+	int *ptr;
+	for(ptr=arr+4;ptr>=arr;ptr--)
+		printf("%d ",arr[ptr-arr]);
+}
+```
+## Output of Prgm-24
+```
+5 4 3 2 1
+```
+## `ptr+i <= arr+4`. In this expression, '+' enjoys a higher priority than <=. Therefore, `Ptr+i` and `arr+4` are performed and then the `<=` goes to work.  
+# Prgm-23
+```
+#include <stdio.h>
+int main()
+{
+	int arr[]={1,2,3,4,5};
+	int i,*ptr;
+	for(ptr=arr,i=0;ptr+i<=arr+4;ptr++,i++)
+		printf("%d ",*(ptr+i));
+}
+```
+## Output of Prgm-23
+```
+1 3 5
+```
+# Prgm-22
+```
+#include <stdio.h>
+int main()
+{
+	int arr[]={1,2,3,4,5};
+	int i,*ptr;
+	for(ptr=&arr[0],i=0;i<=4;i++)
+}
+```
+## Output is the array
+# Prgm-21
+```
+#include <stdio.h>
+int main()
+{
+	int arr[]={1,2,3,4,5};
+	int *ptr;
+	for(ptr=&arr[0];ptr<=&arr[4];ptr++)
+		printf("%d ",*ptr);
+}
+```
+## Output is the array
+# Prgm-20
+```
+#include <stdio.h>
+void f(int *y);
+int main()
+{
+	int a[]={1,2,3,4,5};
+	int i;
+	f(a);
+	for(i=0;i<=4;i++)
+		printf("%d ",a[i]);
+}
+
+void f(int *y)
+{
+	int i;
+	for(i=0;i<=4;i++)
+	{
+		*y=*y+1;
+		y++;
+	}
+}
+```
+## Output of Prgm-20
+```
+2 3 4 5 6
+```
+## a[i], *(a+i), *(i+a) and i[a] all refer to the ith element fo the base address if a is a 1D array
+## Therefore, *(a+i) = a[i] + i[a] will double the elements of the array.
+# Prgm-19
+```
+#include <stdio.h>
+void fun(int **p);
+int main()
+{
+	int a[2][3][4]=
+	{
+		{
+		1,2,3,4,
+		5,6,7,8,
+		9,0,1,5
+		},
+		{
+		4,9,10,8,
+		1,9,7,3,
+		0,5,7,1
+		}
+	};
+	int i,j,k;
+	for(i=0;i<2;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			for(k=0;k<4;k++)
+			{
+				printf("%d ",*(*(*(a+i)+j)+k));
+			}
+			printf("\n");
+		}
+			printf("\n");
+	}
+}
+```
+## Output of Prgm-19
+```
+Prints the array.
+To remember: a[i][j][k] = *(*(*(a+i)+j)+k)
+Also: a,*a,**a will all give the base address
+```
+# Prgm-18
+```
+#include <stdio.h>
+void fun(int **p);
+int main()
+{
+	int a[3][4]={
+ 		1,2,3,4,
+		5,6,7,8,
+		9,0,1,5
+	};
+	printf("%u\n",a);
+	int *ptr;
+	ptr=&a[0][0];
+	fun(&ptr);
+}
+
+void fun(int **p)
+{
+	printf("%u\n",p);
+	printf("%u\n",*p);
+	printf("%d",**p);
+}
+```
+## Output of Prgm-17
+```
+2133768496
+2133768488
+2133768496
+1
+Why?
+Well 'p' holds the address of the pointer 'ptr' and *p holds the address of a[0][0].
+```
+# Prgm-17
+```
+#include <stdio.h>
+int main()
+{
+	int a[3][4]={
+		1,2,3,4,
+		5,6,7,8,
+		9,0,1,5
+	};
+	printf("\na: %u",a);
+	printf("\na+1: %u &a+1: %u\n",a+1,&a+1);
+}
+```
+## Output of Prgm-17
+```
+a: 1784710912
+a+1: 1784710928 &a+1: 1784710960
+Explanation: 'a+1' gives address of next 1D array whereas '&a+1' gives address of next 2D array
+```
+# Prgm-16
+```
+#include <stdio.h>
+int main()
+{
+	int a[]={1,2,3,4,5};
+	printf("%u %u\n",a,&a);
+	printf("%u %u\n",a+1,&a+1);
+}
+```
+## Output of Prgm-16
+```
+1472112416 1472112416
+1472112420 1472112436
+Explanation: Both 'a' and '&a' gives the base address. However, a+1 gives address of next integer and &a+1 gives address of next array of 5 integers.
+```
 # Prgm-15
 ```
 #include <stdio.h>
