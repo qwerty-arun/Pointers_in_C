@@ -1,3 +1,74 @@
+# Prgm-31
+```
+#include <stdio.h>
+int main()
+{
+	int arr[3][3][3];
+	printf("\n%u %u %u",arr,arr+1,arr+2);
+	printf("\n%u %u %u",arr[0],arr[0]+1,arr[1]);
+	printf("\n%u %u %u",arr[1][1],arr[1][0]+1,arr[0][1]);
+}
+```
+## Output of Prgm-31
+```
+3757839504 3757839540 3757839576
+3757839504 3757839516 3757839540
+3757839552 3757839544 3757839516
+```
+## If we pass name of a 1D array  to a function it decays into a pointer to an int. If we pass name of a 2D array of integers to a function, it decays into a pointer to an array and not a pointer to a pointer.
+## char **str , char *str[], char str[][] are not the same declarations. 
+# Prgm-30
+```
+#include <stdio.h>
+int main()
+{
+	char arr[]="Aura";
+	char *ptr = "Aura";
+	arr="Newstr";
+	ptr="Huh";
+	printf("\n%c %c",arr[3],ptr[3]);
+}
+```
+## The above program gives an error because we can assign a new string to a pointer but not to an array.
+## Whenever mentioning the array name gives its base address it is said that the array has decayed into a pointer. This doesn't take place in two situations: 1) When array name is used with `sizeof` operator. 2) When array name is an operand of the & operator.
+## Even though, arr and &arr give the same address, they are different. `arr` gives adddress of the first int wheras `&arr` gives the address of array of ints.
+## char a[] and char *a are treated as same by compiler when using them as formal parameters while defining function.
+# Prgm-29
+```
+#include <stdio.h>
+int main()
+{
+	static int a[3][3]= {
+			2,4,3,
+			6,8,5,
+			3,5,1
+			};
+	static int *ptr[3] = {a[0],a[1],a[2]};
+	int **ptr1=ptr;
+	int i;
+
+	printf("\n");
+	for(i=0;i<=2;i++)
+		printf("%d ",*ptr[i]);
+
+	printf("\n");
+	for(i=0;i<=2;i++)
+		printf("%d ",*a[i]);
+
+	printf("\n");
+	for(i=0;i<=2;i++)
+	{
+		printf("%d ",**ptr1);
+		ptr1++;
+	}
+}
+```
+## Output of Prgm-29
+```
+2 6 3
+2 6 3
+2 6 3
+```
 # Prgm-28
 ```
 #include <stdio.h>
