@@ -1,3 +1,113 @@
+# Prgm-11: Two Dimensional Array of Characters
+```
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	 char names[5][10];
+	printf("\nEnter 5 name:");
+	for(int i=0;i<5;i++)
+	{
+		scanf("%s",&names[i][0]); //even names[i] works fine
+	}
+	printf("\nThe 5 names which you entered are:");
+	for(int i=0;i<5;i++)
+	{
+		printf("\n%s",names[i]);
+	}
+}
+```
+## Remarks on Prgm-11: Enters 5 names and displays them
+# Prgm-10
+```
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	 char names[5][10]={
+			"ryan",
+		"shreyas",
+		"gopal",
+		"aakash",
+		"ram"
+	};
+	char name[10];
+	int a,flag;
+	printf("\nEnter your name:");
+	scanf("%s",name);
+	for(int i=0;i<5;i++)
+	{
+		a=strcmp(&names[i][0],name);	
+		if(a==0)
+		{
+			printf("\nFound!");
+			flag=1;
+			break;
+		}
+	}
+
+	if(flag==0)
+	{
+		printf("\nNot found!");
+	}
+}
+```
+## Trying to assign a const string to non-const string yields the warning: Assigning to `char*` from `const char*` discards qualifiers.
+# Prgm-9
+```
+#include <stdio.h>
+int main()
+{
+	const char *fun();
+	const char *p;
+	p=fun();
+	*p='A';
+	printf("\n%s",p);
+	return 0;
+}
+
+const char* fun()
+{
+	return "Code";
+}
+```
+## Remarks on Prgm-9
+```
+fun() is returning a constant string, we can't modify it using 'p'. Further more, main() can't assign the return value to a pointer to a non const string and main() can pass the return value to a function that is expecting a pointer to a non-const string. 
+```
+## The program below illustrates the ideas of const keyword
+# Prgm-8
+```
+#include <stdio.h>
+int main()
+{
+	char *p="Hello"; //pointer is variable and even string
+	*p='M';
+	p="Bye";
+
+	char const *q="Hello"; //string is constant pointer is not
+	*q='M';//error
+	q="Bye";
+
+	const char *r="Hello"; //string is constant pointer is not
+	*r='M';//error
+	r="Bye";
+
+	char *const s="Hello"; //pointer is constant string is not
+	*s='M';
+	s="Bye";//error
+
+	const char *const t="Hello"; //string is constant and even pointer
+	*t='M';// error 
+	t="Bye";//error
+	return 0;
+}
+```
+## `#define` used inside main can also be accessed in other functions, it is a pre-processor, so its global even if it is defined inside the main function.
+## Why using const is a better idea than #define? Well we can control the scope of const variables but not of #define.
+## We cannot assign a string to another, whereas, we can assign a char pointer to another char pointer.
 ## The program below doesn't use malloc but the downside is we need to know array size beforehand.
 # Prgm-7
 ```
