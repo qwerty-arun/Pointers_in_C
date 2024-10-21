@@ -1,38 +1,60 @@
 #include <stdio.h>
-#include <string.h>
+int xstrlen(char *);
+char* xstrcpy(char *,char *);
+char *xstrcat(char *,char *);
 int main()
 {
-	char str1[20]="Bamboozled";
-	char str2[]="Champ";
-	char str3[20];
-	int l,k;
-	l=strlen(str1);
-	printf("\nSizeof str1[] = %d",sizeof(str1));
-	printf("\nSizeof str2[] = %d",sizeof(str2));
-	printf("\nSizeof str3[] = %d",sizeof(str3));
-	printf("\nLength of string str1= %d",l);
-	l=strlen(str2);
-	printf("\nLength of string str2= %d",l);
-	l=strlen(str3);
-	printf("\nLength of string str3= %d",l);
-	
-	char str4[20]="";
-	printf("\nLength of string str4= %d",strlen(str4));
-	printf("\nSizeof str4[] = %d",sizeof(str4));
-	printf("\nSizeof("")= %d",sizeof(""));
+	char arr[]="Pointerzzz";
+	int len1,len2;
+	len1=xstrlen(arr);
+	len2=xstrlen("Stringswithpointers");
+	printf("\nstring = %s length= %d",arr,len1);
+	printf("\nstring = %s length= %d","stringswithpointers",len2);
+	char *str;
+	str=xstrcpy(str,arr);
+	printf("\nstring = %s length= %d",str,xstrlen(str));
+	char * cat_String=xstrcat("Arun\0","isCoding\0");
+	printf("\nstring = %s length= %d",cat_String,xstrlen(cat_String));
+}
 
-	strcpy(str3,str1);
-	printf("\nAfter copying, String st3 = %s",str3);
-	printf("\nLength of string str3= %d",strlen(str3));
+int xstrlen(char *c)
+{
+	int length=0;
+	while(*c!='\0')
+	{
+		length++;
+		c++;
+	}
+	return length;
+}
 
-	k=strcmp(str1,str2);
-	printf("\nComparing str1 and str2,k = %d",k);
+char* xstrcpy(char *s,char *t)
+{
+	while(*t!='\0')
+	{
+		*s=*t;
+		s++;
+		t++;
+	}
+	*s='\0';
+	return s;
+}
 
-	k=strcmp(str3,str1);
-	printf("\nComparing str3 and str1,k = %d",k);
-
-	strcat(str1,str2);
-	printf("\nConcatinating str1 with str2 = %s",str1);
-	printf("\nLength of string str1= %d",strlen(str1));
-	return 0;
+char *xstrcat(char *s1,char *s2)
+{
+	char *final_str;
+	while(*s1)
+	{
+		*final_str=*s1;
+		final_str++;
+		s1++;
+	}
+	while(*s2)
+	{
+		*final_str=*s2;
+		final_str++;
+		s2++;
+	}
+	*final_str='\0';
+	return final_str;
 }

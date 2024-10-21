@@ -1,3 +1,257 @@
+## The program below doesn't use malloc but the downside is we need to know array size beforehand.
+# Prgm-7
+```
+#include <stdio.h>
+
+int xstrlen(char *s);
+char* xstrcpy(char *dest, const char *src);
+char* xstrcat(char *dest, const char *src);
+int xstrcmp(char *s1,char *s2);
+int main()
+{
+    char arr[] = "Pointerzzz";
+    int len1 = xstrlen(arr);
+    int len2 = xstrlen("Stringswithpointers");
+
+    printf("\nstring = %s length= %d", arr, len1);
+    printf("\nstring = %s length= %d", "Stringswithpointers", len2);
+
+    // Declare a destination array with enough space for the copied string
+    char str[50];  // Make sure this is large enough to hold the copied string
+    xstrcpy(str, arr);
+    printf("\nCopied string = %s length= %d", str, xstrlen(str));
+
+    // Declare a destination array with enough space for the concatenated string
+    char cat_String[50];  // Make sure this is large enough for concatenation
+    xstrcpy(cat_String, "Arun");
+    xstrcat(cat_String, "isCoding");
+    printf("\nConcatenated string = %s length= %d", cat_String, xstrlen(cat_String));
+    char str1[10]="rat";
+    char str2[10]="sat";
+    int cmp=xstrcmp(str1,str2);
+    printf("\nCompare value: %d",cmp);
+    return 0;
+}
+
+int xstrlen(char *s)
+{
+    int length = 0;
+    while (*s != '\0') {
+        length++;
+        s++;
+    }
+    return length;
+}
+
+char* xstrcpy(char *dest, const char *src)
+{
+    char *original_dest = dest;
+    while (*src != '\0') {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';  // Null-terminate the destination string
+    return original_dest;
+}
+
+char* xstrcat(char *dest, const char *src)
+{
+    char *original_dest = dest;
+
+    // Move dest to the end of the string
+    while (*dest != '\0') {
+        dest++;
+    }
+
+    // Copy src to the end of dest
+    while (*src != '\0') {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';  // Null-terminate the concatenated string
+    return original_dest;
+}
+int xstrcmp(char *s1,char *s2)
+{
+    while(*s1 == *s2)
+    {
+        if(*s1=='\0')
+            return 0;
+        s1++;
+        s2++;
+    }
+    return(*s1-*s2);
+}
+```
+## What if I didn't wanna use malloc in the below program? Well there is a way but we use arrays of large enough size instead.
+# Prgm-6
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+int xstrlen(char *s);
+char* xstrcpy(char *dest, const char *src);
+char* xstrcat(char *dest, const char *src);
+
+int main()
+{
+    char arr[] = "Pointerzzz";
+    int len1 = xstrlen(arr);
+    int len2 = xstrlen("Stringswithpointers");
+
+    printf("\nstring = %s length= %d", arr, len1);
+    printf("\nstring = %s length= %d", "stringswithpointers", len2);
+
+    char *str = (char*)malloc((len1 + 1) * sizeof(char));
+    if (str == NULL) {
+        printf("\nMemory allocation failed");
+        return 1;
+    }
+    str = xstrcpy(str, arr);
+    printf("\nCopied string = %s length= %d", str, xstrlen(str));
+
+    char *cat_String = (char*)malloc((xstrlen("Arun") + xstrlen("isCoding") + 1) * sizeof(char));
+    if (cat_String == NULL) {
+        printf("\nMemory allocation failed");
+        free(str);  // Clean up allocated memory before exiting
+        return 1;
+    }
+    cat_String = xstrcpy(cat_String, "Arun");
+    cat_String = xstrcat(cat_String, "isCoding");
+    printf("\nConcatenated string = %s length= %d", cat_String, xstrlen(cat_String));
+
+    free(str);
+    free(cat_String);
+
+    return 0;
+}
+
+int xstrlen(char *s)
+{
+    int length = 0;
+    while (*s != '\0') {
+        length++;
+        s++;
+    }
+    return length;
+}
+
+char* xstrcpy(char *dest, const char *src)
+{
+    char *original_dest = dest;
+    while (*src != '\0') {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';  // Null-terminate the destination string
+    return original_dest;
+}
+
+char* xstrcat(char *dest, const char *src)
+{
+    char *original_dest = dest;
+    while (*dest != '\0') {
+        dest++;
+    }
+
+    while (*src != '\0') {
+        *dest = *src;
+        dest++;
+        src++;
+    }
+    *dest = '\0';  // Null-terminate the concatenated string
+    return original_dest;
+}
+```
+## Output of Prgm-6
+```
+string = Pointerzzz length= 10
+string = stringswithpointers length= 19
+Copied string = Pointerzzz length= 10
+Concatenated string = ArunisCoding length= 12
+```
+# Prgm-5
+```
+#include <stdio.h>
+int xstrlen(char *);
+char* xstrcpy(char *,char *);
+char *xstrcat(char *,char *);
+int main()
+{
+	char arr[]="Pointerzzz";
+	int len1,len2;
+	len1=xstrlen(arr);
+	len2=xstrlen("Stringswithpointers");
+	printf("\nstring = %s length= %d",arr,len1);
+	printf("\nstring = %s length= %d","stringswithpointers",len2);
+	char *str;
+	str=xstrcpy(str,arr);
+	printf("\nstring = %s length= %d",str,xstrlen(str));
+	char * cat_String=xstrcat("Arun\0","isCoding\0");
+	printf("\nstring = %s length= %d",cat_String,xstrlen(cat_String));
+}
+
+int xstrlen(char *c)
+{
+	int length=0;
+	while(*c!='\0')
+	{
+		length++;
+		c++;
+	}
+	return length;
+}
+
+char* xstrcpy(char *s,char *t)
+{
+	while(*t!='\0')
+	{
+		*s=*t;
+		s++;
+		t++;
+	}
+	*s='\0';
+	return s;
+}
+
+char *xstrcat(char *s1,char *s2)
+{
+	char *final_str;
+	while(*s1)
+	{
+		*final_str=*s1;
+		final_str++;
+		s1++;
+	}
+	while(*s2)
+	{
+		*final_str=*s2;
+		final_str++;
+		s2++;
+	}
+	*final_str='\0';
+	return final_str;
+}
+```
+## Output of Prgm-5
+```
+string = Pointerzzz length= 10
+Segmentation fault (core dumped)
+What is the problem here:
+
+The errors in the code are mainly due to incorrect memory handling and assignment. Here’s what needs to be fixed:
+
+Uninitialized Pointers:
+In the xstrcpy and xstrcat functions, you are trying to copy strings into pointers (str and final_str), but these pointers are not initialized with any valid memory locations. As a result, they point to random memory locations, which leads to undefined behavior.
+
+Returning incorrect pointers:
+In xstrcpy, you return the pointer after the copying process has finished. Instead, you should return the original pointer to the beginning of the destination string.
+Similarly, in xstrcat, the final_str should point to a memory location that can hold the concatenated string. Also, you should return the original pointer to the start of the concatenated string.
+```
+
 # Prgm-4
 ```
 #include <stdio.h>
