@@ -1,3 +1,80 @@
+## *(ch+i)=ASCII is the same as ch[i]=ASCII, when you print using %s, the characters are printed. Don't forget to terminate using *(char+i)='\0'
+## `printf(5+"CodingOnLinux")` will print "gOnLinux". Explanation: base address + 5 is being passed. So address of 'g' is indeed 'base+5', so characters from g onwards are printed.
+# Prgm-14
+```
+#include <stdio.h>
+int main()
+{
+	char s[]="Fullerene";
+	printf("\n%d",*(s+strlen(s)));
+}
+```
+## Output of Prgm-14
+```
+0 is printed indicating `\0` at the end of the string.
+Try subtracting different number like 1,2,3 etc. and corresponding ASCII values of the characters are printed.
+```
+# Prgm-13: Overcoming the limitation of Array of Pointers to strings
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main()
+{
+	char *names[5];
+	char str[10];
+	int i;
+	for(i=0;i<5;i++)
+	{
+		printf("\nEnter a string: ");
+		scanf("%s",str);	
+		names[i]=(char*)malloc(strlen(str));
+		strcpy(names[i],str); 
+	}
+	printf("\nThe names are:");
+	for(i=0;i<5;i++)
+	{
+		printf("\n%s",names[i]);
+	free(names[i]);
+	}
+}
+```
+## Remarks on Prgm-13: We used malloc to allocate memory to each pointer in the array of pointers to strings. Then we free the allocated memory one by one after printing the names.
+## What's the solution? First we need to allocate space using malloc and then store the address returned by malloc() in the array of pointers to strings.
+## Why doesn't it work? Because when we are declaring the array it is containing garbage values. And it would be wrong to send to scanf() as the addresses where it should keep the strings received from the keyboard.
+## When we are using a 2D array of characters, we can either intialisw the strings where we are declaring the array, or receive the strings using scanf(). However using array of pointers to strings, we can initialise the strings at the place where we are declaring the array, but can't receive using scanf().
+## Our own swap function would look like this:
+```
+swap(char **s1,char **s2)
+{
+	char *t;
+	t=*s1;
+	*s1=*s2;
+	*s2=t;
+}
+```
+# Prgm-12: Array of Pointers to Strings
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char *names[]={
+		"arun",
+		"ram",
+		"dhruv",
+		"ganesh",
+		"dinesh"
+	};
+	char *temp;
+	printf("\nOriginal: %s %s",names[2],names[3]);
+	temp=names[2];
+	names[2]=names[3];
+	names[3]=temp;
+	printf("\n=New %s %s",names[2],names[3]);
+}
+```
+## Remarks onn Prgm-12: The program exchanges the names dhruv and ganesh.
 # Prgm-11: Two Dimensional Array of Characters
 ```
 #include <stdio.h>
