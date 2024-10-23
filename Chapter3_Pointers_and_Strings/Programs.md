@@ -1,3 +1,302 @@
+# Prgm-28
+```
+#include <stdio.h>
+int main()
+{
+    char a[2][2][25]={
+                {
+"Jack and Jill",
+            "Went up the hill"
+        },
+        {
+            "Jack fell down",
+            "And broke his crown"
+        }
+    };
+    printf("\n%s %s %s %s",&a[0][0][9],&a[0][1][12],&a[1][0][10],&a[1][1][14]);
+}
+```
+## Output of Prgm-28: Jack hill down crown
+# Prgm-27 : Occurance of Subtring (Different Approach)
+```
+#include <stdio.h>
+#include <string.h>
+int checkSubstring(char str[], char substr[]) {
+    if (strstr(str, substr) != NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char str[] = "This is a test string.";
+    char substr[] = "test";
+    if (checkSubstring(str, substr)) {
+        printf("The substring '%s' is found in the string.\n", substr);
+    } else {
+        printf("The substring '%s' is NOT found in the string.\n", substr);
+    }
+    return 0;
+}
+```
+# Prgm-26 : Occurance of Substring (My approach)
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main()
+{
+    char str[10]="bengaluru";
+    char substr[10]="bengal";
+    for(int i=0;i<strlen(str);i++)
+    {
+        int length=0;
+        for(int j=0;j<strlen(substr);j++)
+        {
+           if(str[j+i]==substr[j]) 
+                length++;
+        }
+        if(length==strlen(substr))
+        {
+            printf("\nSubstring found!");
+            exit(1);
+        }
+    }
+    printf("\nSubstring not found.");
+    return 0;
+}
+```
+## Output of Prgm-26: Substring found! For input substr = "lore", Output will be "Substring not found"
+# Prgm-25 : Removing Extra Spaces
+```
+#include <stdio.h>
+#include <string.h>
+
+void removeMultipleBlanks(char str[]) {
+    int i = 0, j = 0;
+    int length = strlen(str);
+    while (i < length) {
+        if (str[i] == ' ' && str[i + 1] == ' ') {
+            i++;  // Skip the extra blank space
+        } else {
+            str[j++] = str[i++];
+        }
+    }
+    str[j] = '\0';  // Null-terminate the string
+}
+
+int main() {
+    char str[] = "This   is    a   test    string.";
+    printf("Original sentence: %s\n", str);
+    removeMultipleBlanks(str);
+    printf("Modified sentence: %s\n", str);
+    return 0;
+}
+```
+## Output of Prgm-25
+```
+Original sentence: This   is    a   test    string.
+Modified sentence: This is a test string.
+```
+## Try DPSK modulation technique and display the sequence.
+# Prgm-24 : Encoding Program
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char str[20]="This is C. Like it?";
+	printf("\nNormal Sequence: %s",str);
+	for(int i=0;i<19;i++)
+	{
+		str[i]=str[i]+1; //try +i
+	}
+	printf("\nEncoded Sequence: %s",str);
+	for(int i=0;i<19;i++)
+	{
+		str[i]=str[i]-1;
+	}
+	printf("\nDecoded Sequence: %s",str);
+}
+```
+## Output of Prgm-24
+```
+Normal Sequence: This is C. Like it?
+Encoded Sequence: Uijt!jt!D/!Mjlf!ju@
+Decoded Sequence: This is C. Like it?
+```
+# Prgm-23 : Sorting Program
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char *names[4]={"mouse","keyboard","monitor","games"};
+	for(int i=0;i<4;i++)
+	{
+		for(int j=i+1;j<4;j++)
+		{
+		if(strcmp(names[i],names[j])>0)
+		{
+			char *str=names[i];
+			names[i]=names[j];
+			names[j]=str;
+		}
+		}
+	}
+	for(int i=0;i<4;i++)
+		printf("\n%s",names[i]);
+}
+```
+## Output of Prgm-23
+```
+games
+keyboard
+monitor
+mouse
+```
+## Strings can be processed only on a character by character basis
+## char *p="Strings", char arr[]="Strings", what is the difference? Well 'str' is big enough to hold the message. Individual characters withing the array can be changed but the address of the array would remain same. 'p' is a pointer, initialized to point to a string constant. 'p' may be modified to point to another string, but if you attemp to modify the string at which p is pointing, the result will be undefined.
+## In the program below, if I change char str[15] to *str, there will be an error while executing: Segmentation fault(Core Dumped).
+## Reason: What is present beyond "Lockheed" is not known and we are attaching "Martin" at the end of "Lockheed" and we may be overwriting something.
+# Prgm-22
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char str1[15]="Lockheed";
+	char *str2="Martin";
+	char *str3;
+	str3=strcat(str1,str2);
+	printf("\n%s",str3);
+}
+```
+## Output of Prgm-22: LockheedMartin
+## In the program below, if I try doing `strings[2]=strings[3];`, What I am actually doing is changing is the base addresses which is not allowed.
+# Prgm-21
+```
+#include <stdio.h>
+int main()
+{
+	char *strings[]={
+		"Pointers",
+		"Arrays",
+		"Strings",
+		"Data Structures"
+	};
+	printf("\n%d %d",sizeof(strings),sizeof(strings[1]));
+}
+```
+## Output of Prgm-21: 32 8 -> Each pointer is of 8 bytes, there are four of them: 8*4=32
+# Prgm-20
+```
+#include <stdio.h>
+int main()
+{
+	char s[]="C is the perfect language";
+	char t[40];
+	char *ss,*tt;
+	ss=s;
+	tt=t;
+	while(*tt++=*ss++);
+	printf("\n%s",t);
+}
+```
+## Output of Prgm-20: C is the perfect language
+```
+Each and every character is copied to string 't'. While condition is made compact by combining the assignment, test condition and the incrementation in the while loop itself. The loop goes on till the end of the string s marked by '\0'. Therefore all elements are copied, including the '\0'.
+# Prgm-19
+```
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+	char str[]="malayalam";
+	char *s;
+	s=str+8;
+	while(s>=str)
+	{
+		printf("%c",*s);
+		s--;
+	}
+}
+```
+## Output of Prgm-19: malayalam (palindrome)
+# Prgm-18
+```
+#include <stdio.h>
+int main()
+{
+	static char *s[]={"Pointers","are","really","hard!"};
+	static char **ptr[]={s+3,s+2,s+1,s};
+	char ***p=ptr;
+	printf("\n%s",**++p);
+	printf("\n%s",*--*++p+3);
+	printf("\n%s",*p[-2]+3);
+	printf("\n%s",p[-1][-1]+1);
+}
+```
+## Output of Prgm-18
+```
+really : ++p will be s+2 and value at s+2 is really.
+nters : ++p will &(s+1) and value at will be s+1 then decrementing by 1 gives us `s`. *s will be pointers. `%s+3` -> n onwards.
+d! : p[-2] = *(p-2), which is s+3, value at will be "hard!" then the string+3 onwards will be printed.
+re : p[-1][-1] is the same as *(*(p-1)-1)
+```
+## `char s[]="Code"; s++;` will result in an error. `s` by itself means base address. So if this info is lost, there is no way the compiler keep track of the string s[]. Therefore `s++` is wrong.
+# Prgm-17
+```
+#include <stdio.h>
+int main()
+{
+	char s[]="Rice Curd and Sambar";
+	printf("\n%c",*(&s[2]));
+	printf("\n%s",s+5);
+	printf("\n%s",s);
+	printf("\n%c",*(s+2));
+	printf("\n%u",s);
+}
+```
+## Output of Prgm-17
+```
+c
+Curd and Sambar
+Rice Curd and Sambar
+c
+23292944
+Explanation: `s+5` would give address of fifth element from the base address. So contents of string are printed out from 5th element onwards. Rest of the printf's are self explanatory.
+What about the last one? %u is used to get the base address of the string.
+```
+# Prgm-16
+```
+#include <stdio.h>
+int main()
+{
+	char *str[]={"I","am","Coding","on","Linux!"};
+	printf("%u %u",sizeof(str),sizeof(str[0]));
+}
+```
+## Remarks on Prgm-16: It gives the output: 40 8
+## `char str[4]="Code"; printf("%s",str);` will give the output as "Code" but since a 4character array is declared and 5 character string is being stored (\0), this would result into overwriting of the byte beyond the seventh byte reserved for the array foor'\0'. There is a possibility that something important gets overwritten, which is definitely unsafe.
+## `printf("%c","abcdefg"[4])` will give 'e' as output. We know a[4] gets converted to *(a+4), therefore, "abcdefgh"[4] becomes *("abcdefgh"+4) which is same as *(base address +4)
+## If we want to compare two strings, we should compare them on a character basis or use strcmp().
+# Prgm-15
+```
+#include <stdio.h>
+int main()
+{
+	char str1[]="Hello";
+	char str2[]="Hello";
+	if(str1==str2)
+	{
+		printf("\nEqual");
+	}
+	else
+	printf("\nUnequal");
+}
+```
+## Remarks on Prgm-15: Array comparisions always evaluates to false.
 ## *(ch+i)=ASCII is the same as ch[i]=ASCII, when you print using %s, the characters are printed. Don't forget to terminate using *(char+i)='\0'
 ## `printf(5+"CodingOnLinux")` will print "gOnLinux". Explanation: base address + 5 is being passed. So address of 'g' is indeed 'base+5', so characters from g onwards are printed.
 # Prgm-14
