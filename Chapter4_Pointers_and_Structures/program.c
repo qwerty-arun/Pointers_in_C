@@ -1,14 +1,19 @@
 # include <stdio.h>
 int main()
 {
-	struct player
+	struct general 
 	{
-		char name[20];
-		int age;
+		char a; 
+		double d;
 	};
-	struct player p1={"Dhruv",26};
-	struct player *ptr;
-	ptr=&p1;
-	printf("\n%s %d",p1.name,p1.age);
-	printf("\n%s %d",ptr->name,ptr->age);
+	struct general p[5][5];
+	struct general *q;
+	q=&p[0][0];
+	p[0][0].a='0';
+	p[0][0].d=3.14;
+	(*(*(p+1)+1)).a='1';
+	(*(*(p+1)+1)).d=2.718;
+	printf("\n%c %lf",p[0][0].a,p[0][0].d);
+	printf("\n%c %lf",p[1][1].a,p[1][1].d);
+	printf("\n%c %lf",(*q).a,(*q).d);
 }
