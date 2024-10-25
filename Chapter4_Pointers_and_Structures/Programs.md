@@ -1,3 +1,236 @@
+# Prgm-8 : Single Linked List Ascending Order
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void add(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+    
+    // Special case for the head end
+    if (*head == NULL || (*head)->data >= newNode->data) {
+        newNode->next = *head;
+        *head = newNode;
+    } else {
+        // Locate the node before the point of insertion
+        struct Node* current = *head;
+        while (current->next != NULL && current->next->data < newNode->data) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+}
+
+void display(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    add(&head, 5);
+    add(&head, 1);
+    add(&head, 8);
+    add(&head, 3);
+    add(&head, 7);
+
+    printf("Sorted Linked List: ");
+    display(head);
+
+    return 0;
+}
+```
+## Output of Prgm-8
+```
+Sorted Linked List: 1 -> 3 -> 5 -> 7 -> 8 -> NULL
+```
+# Prgm-7: Single Linked List program
+```
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+	int data;
+	struct node *link;
+};
+
+void delete(struct node **q,int num);
+int count (struct node *q);
+void display(struct node *q);
+void addafter(struct node *q, int loc, int num);
+void addatbeg(struct node **q,int num);
+void append(struct node **q, int num);
+
+int main()
+{
+	struct node *p;
+	p=NULL;//empy linked list
+	printf("\nNo. of elements in the Linked List = %d",count(p));
+	append(&p,1);
+	append(&p,2);
+	append(&p,3);
+	append(&p,4);
+	append(&p,19);
+	append(&p,61);
+
+	display(p);
+	
+	addatbeg(&p,999);
+	addatbeg(&p,888);
+	addatbeg(&p,777);
+
+	display(p);
+	
+	addafter(p,7,0);
+	addafter(p,2,1);
+	addafter(p,1,99);
+
+	display(p);
+
+	printf("\nNo. of elements in the linked list =%d",count(p));
+
+	delete(&p,888);
+	delete(&p,1);
+	delete(&p,10);
+
+	display(p);
+
+	printf("\nNo. of elements in the linked list =%d",count(p));
+	free(p);
+}
+
+void append(struct node **q, int num)
+{
+	struct node *temp,*r;
+	temp=*q;
+
+	if(*q==NULL)
+	{
+		temp=malloc(sizeof(struct node));
+		temp->data=num;
+		temp->link=NULL;
+		*q=temp;
+	}
+	else
+	{
+		temp=*q;
+		while(temp->link!=NULL)
+			temp=temp->link;
+
+		r=malloc(sizeof(struct node));
+		r->data=num;
+		r->link=NULL;
+		temp->link=r;
+	}
+	free(temp);
+	free(r);
+}
+
+void addatbeg(struct node **q,int num)
+{
+	struct node *temp;
+	temp=malloc(sizeof(struct node));
+	temp->data=num;
+	temp->link=*q;
+	*q=temp;
+	free(temp);
+}
+
+void addafter(struct node *q, int loc, int num)
+{
+	struct node *temp,*r;
+	int i;
+	temp=q;
+	for(i=0;i<loc;i++)
+	{
+		temp=temp->link;
+		if(temp==NULL)
+		{
+			printf("\nThere are less than %d elements in list",loc);
+			return ;
+		}
+	}
+}
+
+void display(struct node *q)
+{
+	printf("\n");
+	while(q!=NULL)
+	{
+		printf("%d ",q->data);
+		q=q->link;
+	}
+}
+ 
+int count (struct node *q)
+{
+	int c=0;
+	while(q!=NULL)
+	{
+		q=q->link;
+		c++;
+	}
+	return c;
+}
+
+void delete(struct node **q,int num)
+{
+	struct node *old, *temp;
+	temp=*q;
+	while(temp!=NULL)
+	{
+		if(temp->data==num)
+		{
+			if(temp==*q)
+			{
+				*q=temp->link;
+				free(temp);
+				return;
+			}
+			else
+			{
+				old->link=temp->link;
+				free(temp);
+				return;
+			}
+		}
+		else
+		{
+			old=temp;
+			temp=temp->link;
+		}
+	}
+	printf("\nElement %d not found",num);
+}
+```
+## Output of Prgm-7
+```
+No. of elements in the Linked List = 0
+1 2 3 4 19 61 
+777 888 999 1 2 3 4 19 61 
+777 888 999 1 2 3 4 19 61 
+No. of elements in the linked list =9
+Element 10 not found
+777 999 2 3 4 19 61 
+No. of elements in the linked list =7
+```
 ## If we try something like *q+5, it will show an error. It says "invalid operands to binary expression ('struct general' and 'int')" 
 # Prgm-6
 ```
