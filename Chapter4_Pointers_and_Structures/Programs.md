@@ -1,3 +1,564 @@
+# Prgm-12 : Double Linked List
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct dnode
+{
+    struct dnode *prev;
+    int data;
+    struct dnode *next;
+};
+
+void d_append(struct dnode **s, int num);
+void d_delete(struct dnode **s,int num);
+int d_count(struct dnode *q);
+void d_display(struct dnode *q);
+void d_addafter(struct dnode *q,int loc,int num);
+void d_addatbeg(struct dnode **s,int num);
+int main()
+{
+    struct dnode *p;
+
+    p=NULL;
+
+    d_append(&p,11);
+    d_append(&p,21);
+
+    d_display(p);
+    printf("\nNo. of elements in the DLL = %d\n",d_count(p));
+
+    d_addatbeg(&p,33);
+    d_addatbeg(&p,55);
+
+    d_display(p);
+    printf("\nNo. of elements in the DLL = %d\n",d_count(p));
+
+    d_addafter(p,1,4000);
+    d_addafter(p,2,9000);
+
+    d_display(p);
+    printf("\nNo. of elements in the DLL = %d\n",d_count(p));
+
+    d_delete(&p,51);
+    d_delete(&p,21);
+
+    d_display(p);
+    printf("\nNo. of elements in the DLL = %d\n",d_count(p));
+    return 0;
+}
+
+void d_append(struct dnode **s, int num)
+{
+    struct dnode *r,*q=*s;
+    if(*s==NULL)
+    {
+        *s=(struct dnode*)malloc(sizeof(struct dnode));
+        (*s)->prev=NULL;
+        (*s)->data=num;
+        (*s)->next=NULL;
+    }
+    else
+    {
+        while(q->next!=NULL)
+            q=q->next;
+        r=(struct dnode*)malloc(sizeof(struct dnode));
+        r->data=num;
+        r->next=NULL;
+        r->prev=q;
+        q->next=r;
+    }
+}
+
+void d_addatbeg(struct dnode **s,int num)
+{
+    struct dnode *q;
+    q=(struct dnode*)malloc(sizeof(struct dnode));
+    q->prev=NULL;
+    q->data=num;
+    q->next=*s;
+
+    (*s)->prev=q;
+    *s=q;
+}
+
+void d_addafter(struct dnode *q,int loc,int num)
+{
+    struct dnode *temp;
+    int i;
+    for(i=0;i<loc;i++)
+    {
+        q=q->next;
+        if(q==NULL)
+        {
+            printf("\nThere are less than %d elements",loc);
+            return;
+        }
+    }
+    
+    q=q->prev;
+    temp=(struct dnode*)malloc(sizeof(struct dnode));
+    temp->data=num;
+    temp->prev=q;
+    temp->next=q->next;
+    temp->next->prev=temp;
+    q->next=temp;
+}
+
+void d_display(struct dnode *q)
+{
+    printf("\n");
+
+    while(q!=NULL)
+    {
+        printf("%2d <-->",q->data);
+        q=q->next;
+    }
+    printf("---> NULL\n");
+}
+
+int d_count(struct dnode *q)
+{
+    int c=0;
+
+    while(q!=NULL)
+    {
+        q=q->next;
+        c++;
+    }
+    return c;
+}
+
+void d_delete(struct dnode **s,int num)
+{
+    struct dnode *q=*s;
+    while(q!=NULL)
+    {
+        if(q->data==num)
+        {
+            if(q==*s)
+            {
+                *s=(*s)->next;
+                (*s)->prev=NULL;
+            }
+            else
+            {
+                if(q->next==NULL)
+                    q->prev->next=NULL;
+                else
+                {
+                    q->prev->next=q->next;
+                    q->next->prev=q->prev;
+                }
+                free(q);
+            }
+            return;
+        }
+        q=q->next;
+    }
+    printf("\n%d Not Found!",num);
+}
+```
+## Output of Prgm-12
+```
+11 <-->21 <-->---> NULL
+
+No. of elements in the DLL = 2
+
+55 <-->33 <-->11 <-->21 <-->---> NULL
+
+No. of elements in the DLL = 4
+
+55 <-->4000 <-->9000 <-->33 <-->11 <-->21 <-->---> NULL
+
+No. of elements in the DLL = 6
+
+51 Not Found!
+55 <-->4000 <-->9000 <-->33 <-->11 <-->---> NULL
+
+No. of elements in the DLL = 5
+```
+# Prgm-11 : Deque 
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct node {
+    int data;
+    struct node* link;
+};
+
+void addqatend(struct node**, struct node**, int);
+void addqatbeg(struct node**, struct node**, int);
+void q_display(struct node* q);
+int count(struct node *q);
+int delqatbeg(struct node**, struct node**);
+int delqatend(struct node**, struct node**);
+
+int main()
+{
+    struct node *front,*rear;
+    int item;
+    front=rear=NULL;
+
+    addqatend(&front,&rear,11);
+    addqatbeg(&front,&rear,12);
+    addqatend(&front,&rear,13);
+    addqatend(&front,&rear,14);
+    addqatend(&front,&rear,15);
+    addqatend(&front,&rear,16);
+    addqatend(&front,&rear,17);
+    addqatend(&front,&rear,17);
+
+    q_display(front);
+    printf("No. of items in stack = %d",count(front));
+    
+    printf("\nItems exracted from stack: ");
+    item = delqatbeg(&front,&rear);
+    printf("%d ",item);
+
+    item = delqatbeg(&front,&rear);
+    printf("%d ",item);
+
+    item = delqatbeg(&front,&rear);
+    printf("%d ",item);
+
+    item = delqatend(&front,&rear);
+    printf("%d ",item);
+
+    printf("\n");
+    q_display(front);
+    printf("\nNo. of items in queue= %d",count(front));
+}
+
+void addqatend(struct node** f,struct node **r,int item)
+{
+    struct node *q;
+    q=malloc(sizeof(struct node));
+    q->data=item;
+    q->link=NULL;
+    if(*f==NULL)
+        *f=q;
+    else
+        (*r)->link=q;
+    *r=q;
+}
+
+void addqatbeg(struct node** f,struct node **r,int item)
+{
+    struct node *q;
+    int *temp;
+    q=malloc(sizeof(struct node));
+    q->data=item;
+    q->link=NULL;
+    if(*f==NULL)
+        *f=q;
+    else
+    {
+        q->link=*f;
+        *r=*f;
+        *f=q;
+    }
+}
+
+int delqatbeg(struct node **f,struct node **r)
+{
+    int item;
+    struct node *q;
+    
+    if(*f==NULL)
+        printf("\nQueue is empty!");
+    else
+    {
+        q=*f;
+        item=q->data;
+        *f=q->link;
+        free(q);
+
+        if(*f==NULL)
+            *r=NULL;
+        return(item);
+    }
+}
+
+int delqatend(struct node **f,struct node **r)
+{
+    int item;
+    struct node *q,*rleft,*temp;
+    
+    temp=*f;
+    if(*r==NULL)
+        printf("\nQueue is empty!");
+    else
+    {
+        while(temp!=*r)
+        {
+            rleft=temp;
+            temp=temp->link;
+        }
+        q=*r;
+        item=q->data;
+        free(q);
+        *r=rleft;
+        (*r)->link=NULL;
+
+        if(*r==NULL)
+            *f=NULL;
+        return(item);
+    }
+}
+
+void q_display(struct node* q)
+{
+    printf("\nfront-> ");
+    while(q!=NULL)
+    {
+        printf("%2d ",q->data);
+        if(q->link==NULL)
+            printf(" <-rear");
+
+        q=q->link;
+    }
+    printf("\n");
+}
+
+int count(struct node *q)
+{
+    int c=0;
+    while(q!=NULL)
+    {
+        q=q->link;
+        c++;
+    }
+    return c;
+}
+
+```
+## Output of Prgm-11
+```
+front-> 12 11 13 14 15 16 17 17  <-rear
+No. of items in stack = 8
+Items exracted from stack: 12 11 13 17 
+
+front-> 14 15 16 17  <-rear
+
+No. of items in queue= 4
+```
+## A deque is a queue in which elements can be added or deleted from both the ends.
+# Prgm-10 : Queue as a linked list
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* link;
+};
+
+void addq(struct node**, struct node**, int);
+int delq(struct node**,struct node**);
+void q_display(struct node* q);
+int count(struct node *q);
+
+int main()
+{
+    struct node *front,*rear;
+    int item;
+    front=rear=NULL;
+
+    addq(&front,&rear,11);
+    addq(&front,&rear,12);
+    addq(&front,&rear,13);
+    addq(&front,&rear,14);
+    addq(&front,&rear,15);
+    addq(&front,&rear,16);
+    addq(&front,&rear,17);
+
+    q_display(front);
+    printf("No. of items in stack = %d",count(front));
+    
+    printf("\nItems exracted from stack: ");
+    item = delq(&front,&rear);
+    printf("%d ",item);
+
+    item = delq(&front,&rear);
+    printf("%d ",item);
+
+    item = delq(&front,&rear);
+    printf("%d ",item);
+
+    q_display(front);
+    printf("\nNo. of items in stack= %d",count(front));
+}
+
+void addq(struct node** f,struct node **r,int item)
+{
+    struct node *q;
+    q=malloc(sizeof(struct node));
+    q->data=item;
+    q->link=NULL;
+    if(*f==NULL)
+        *f=q;
+    else
+        (*r)->link=q;
+    *r=q;
+}
+
+int delq(struct node **f,struct node **r)
+{
+    int item;
+    struct node *q;
+    
+    if(*f==NULL)
+        printf("\nQueue is empty!");
+    else
+    {
+        q=*f;
+        item=q->data;
+        *f=q->link;
+        free(q);
+        if(*f==NULL)
+            *r=NULL;
+        return(item);
+    }
+}
+
+void q_display(struct node* q)
+{
+    printf("\nfront-> ");
+    while(q!=NULL)
+    {
+        printf("%2d ",q->data);
+        if(q->link==NULL)
+            printf(" <-rear");
+
+        q=q->link;
+    }
+    printf("\n");
+}
+
+int count(struct node *q)
+{
+    int c=0;
+    while(q!=NULL)
+    {
+        q=q->link;
+        c++;
+    }
+    return c;
+}
+```
+## Output of Prgm-10
+```
+front-> 11 12 13 14 15 16 17  <-rear
+No. of items in stack = 7
+Items exracted from stack: 11 12 13 
+front-> 14 15 16 17  <-rear
+No. of items in stack= 4
+```
+# Prgm-9 : Stack as a linked list
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* link;
+};
+
+void push(struct node**,int );
+int pop(struct node**);
+int count(struct node *q);
+void stack_display(struct node* q);
+
+int main()
+{
+    struct node *top;
+    int item;
+    top=NULL;
+
+    push(&top,11);
+    push(&top,12);
+    push(&top,13);
+    push(&top,14);
+    push(&top,15);
+    push(&top,16);
+    push(&top,17);
+
+    stack_display(top);
+    printf("No. of items in stack = %d",count(top));
+    
+    printf("\nItems exracted from stack: ");
+    item = pop(&top);
+    printf("%d ",item);
+
+    item = pop(&top);
+    printf("%d ",item);
+
+    item = pop(&top);
+    printf("%d ",item);
+
+    stack_display(top);
+    printf("No. of items in stack= %d",count(top));
+}
+
+void push(struct node** s, int item)
+{
+    struct node *q;
+    q=malloc(sizeof(struct node));
+    q->data=item;
+    q->link=*s;
+    *s=q;
+}
+
+int pop(struct node **s)
+{
+    int item;
+    struct node *q;
+    
+    if(*s==NULL)
+        printf("\nStack is empty!");
+    else
+    {
+        q=*s;
+        item=q->data;
+        *s=q->link;
+        free(q);
+        return(item);
+    }
+}
+
+void stack_display(struct node* q)
+{
+    printf("\n");
+    while(q!=NULL)
+    {
+        printf("%2d ",q->data);
+        q=q->link;
+    }
+    printf("\n");
+}
+
+int count(struct node *q)
+{
+    int c=0;
+    while(q!=NULL)
+    {
+        q=q->link;
+        c++;
+    }
+    return c;
+}
+```
+## Output of Prgm-9
+```
+17 16 15 14 13 12 11 
+No. of items in stack = 7
+Items exracted from stack: 17 16 15 
+14 13 12 11 
+No. of items in stack= 4
+```
 # Prgm-8 : Single Linked List Ascending Order
 ```
 #include <stdio.h>
@@ -416,4 +977,3 @@ struct player p1={"Dhruv",30};
 ## It is mandatory to use 'struct' keyword while declaration. If we don't want to, then we can use typedef keyword where the struct itself is defined.
 ## '.' operator is used to access elements
 # An expert C Programmer is one who avoids all errors except those related with pointers.
-
