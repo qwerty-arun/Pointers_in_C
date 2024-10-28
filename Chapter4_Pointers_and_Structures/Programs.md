@@ -1,3 +1,79 @@
+# Prgm-15
+```
+#include <stdio.h>
+
+struct a 
+{
+    char ch[7];
+    char *str;
+};
+
+struct b 
+{
+    char *c;
+    struct a ss1;
+};
+
+int main()
+{
+    struct b s2 = {"Bengaluru","Indore","Mizoram"};
+    printf("\n%s %s",s2.c,s2.ss1.str);
+    printf("\n%s %s",++s2.c,++s2.ss1.str);
+}
+```
+## Output of Prgm-15
+```
+Bengaluru Mizoram
+engaluru izoram
+```
+## `*s1.str` signifies the value at address contained in s1.str
+# Prgm-14
+```
+#include <stdio.h>
+
+struct a 
+{
+    char ch[7];
+    char *str;
+};
+
+int main()
+{
+    struct a s1 = {"Delhi","Mumbai"};
+printf("\n%c %c",s1.ch[0],*s1.str);
+printf("\n%s %s",s1.ch,s1.str);
+}
+```
+## Output of Prgm-14
+```
+D M
+Delhi Mumbai
+```
+## Note that structure padding is happening here.
+## m[] has been declared as an array of structures. Each structure consists of dissimilar data types, more than one similar structures are capable of formind an array.
+# Prgm-13
+```
+#include <stdio.h>
+#include <string.h>
+
+struct  
+{
+    char mess[50];
+    int num;
+    float f;
+}m[2];
+
+int main()
+{
+printf("\n%u %u %u",m[0].mess,&m[0].num,&m[0].f);
+printf("\n%u %u %u",m[1].mess,&m[1].num,&m[1].f);
+}
+```
+## Output of Prgm-13
+```
+4104974400 4104974452 4104974456
+4104974460 4104974512 4104974516
+```
 # Prgm-12 : Double Linked List
 ```
 #include <stdio.h>
