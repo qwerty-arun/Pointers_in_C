@@ -1,25 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+struct a
+{
+    char name[10];
+    char address[20];
+};
+void print(struct a *aa);
 int main()
 {
-    struct node
-{
-        int data;
-        struct node *next;
+    struct a aa ={
+    "Arun","Bengaluru"
     };
-    struct node *p,*q;
-    p=(struct node*)malloc(sizeof(struct node));
-    q=(struct node*)malloc(sizeof(struct node));
-    p->data=30;
-    q->data=40;
-    p->next=q;
-    q->next=p;
-
-    while(p!=NULL)
-    {
-        printf("\n%d",p->data);
-        p=p->next;
-    }
-    free(p);
-    free(q);
+    print(&aa);
 }
+void print(struct a *aa)
+{
+    printf("\n%s",aa->name);
+    printf("\n%s",aa->address);
+}
+

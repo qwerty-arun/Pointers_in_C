@@ -1,3 +1,36 @@
+# Prgm-23
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    struct a
+    {
+        struct b
+        {
+            char name[20];
+            int age;
+        }bb;
+        struct c
+        {
+            char address[40];
+            int sal;
+        }cc;
+    };
+    struct a *ptr;
+    struct a aa ={
+    {"Raju",30},
+    {"Rajajinagar, Bengaluru",40000}
+    };
+    ptr=&aa;
+    printf("\n%s %s %d %d",ptr->bb.name,ptr->cc.address,ptr->bb.age,ptr->cc.sal);
+}
+```
+## Output of Prgm-23
+```
+Raju Rajajinagar, Bengaluru 30 40000
+```
 # Prgm-22
 ```
 #include <stdio.h>
