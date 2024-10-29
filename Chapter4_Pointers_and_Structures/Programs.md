@@ -1,3 +1,243 @@
+# Prgm-22
+```
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    struct node
+{
+        int data;
+        struct node *prev;
+        struct node *next;
+    };
+    struct node *p,*q;
+    p=(struct node*)malloc(sizeof(struct node));
+    q=(struct node*)malloc(sizeof(struct node));
+    p->data=30;
+    q->data=40;
+    p->prev=NULL;
+    p->next=q;
+    q->prev=p;
+    q->next=NULL;
+
+    while(p!=NULL)
+    {
+        printf("\n%d",p->data);
+        p=p->next;
+    }
+    free(p);
+    free(q);
+}
+```
+## Output of Prgm-22
+```
+30
+40
+```
+# Prgm-21
+```
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+    struct node
+{
+        int data;
+        struct node *link;
+    };
+    struct node *p,*q;
+    p=(struct node*)malloc(sizeof(struct node));
+    q=(struct node*)malloc(sizeof(struct node));
+    p->data=30;
+    p->link=q;
+    q->data=40;
+    q->link=NULL;
+    printf("\n%d",p->data);
+    p=p->link;
+    printf("\n%d",p->data);
+}
+```
+## Output of Prgm-21
+```
+30
+40
+This is a small linked list if observed closely
+```
+# Prgm-20
+```
+#include <stdio.h>
+
+struct s1
+{
+    char *str;
+    struct s1 *next;
+};
+
+void swap(struct s1 *p1, struct s1 *p2);
+int main()
+{
+    static struct s1 arr[]={
+    {"Alpha",arr+1},
+    {"Beta",arr+2},
+    {"Gamma",arr}
+    };
+    struct s1 *p[3];
+    int i;
+    for(i=0;i<3;i++)
+    {
+        p[i]=arr[i].next;
+    }
+
+    printf("\n%s %s %s",p[0]->str,(*p)->str,(**p).str);
+
+    swap(*p,arr);
+
+    printf("\n%s",p[0]->str);
+    printf("\n%s",(*p)->str);
+    printf("\n%s",(*p)->next->str);
+
+    swap(p[0],p[0]->next);
+
+    printf("\n%s",p[0]->str);
+    printf("\n%s",(*++p[0]).str);
+    printf("\n%s",++(*++(*p)->next).str);
+}
+void swap(struct s1 *p1, struct s1 *p2)
+{
+    char *temp;
+    temp=p1->str;
+    p1->str=p2->str;
+    p2->str=temp;
+}
+```
+## Output of PRgm-20
+```
+Beta Beta Beta
+Alpha
+Alpha
+Gamma
+Gamma
+Alpha
+amma
+```
+# Prgm-19
+```
+#include <stdio.h>
+
+int main()
+{
+struct s1 
+{
+    char *str;
+    struct s1 *ptr;
+};
+    static struct s1 a[] = {
+    {"Noida",a+1},
+    {"Kochi",a+2},
+    {"Chennai",a}
+    };
+    struct s1 *p[3];
+    int i;
+    for(i=0;i<=2;i++)
+        p[i]=a[i].ptr;
+    printf("\n%s",p[0]->str);
+    printf("\n%s",(*p)->str);
+    printf("\n%s",**p);
+}
+```
+## Output of Prgm-19
+```
+Kochi
+Kochi
+Kochi
+```
+# Prgm-18
+```
+#include <stdio.h>
+
+int main()
+{
+struct s1 
+{
+    char *z;
+    int i;
+    struct s1 *p;
+};
+    static struct s1 a[] = {
+    {"Noida",1,a+1},
+    {"Kochi",2,a+2},
+    {"Chennai",3,a}
+    };
+    struct s1 *ptr = a;
+    printf("\n%s",++(ptr->z));
+    printf("\n%s",a[(++ptr)->i].z);
+    printf("\n%s",a[--(ptr->p->i)].z);
+}
+```
+## Output of PRgm-18
+```
+oida
+Chennai
+Chennai
+```
+# Prgm-17
+```
+#include <stdio.h>
+
+int main()
+{
+struct s1 
+{
+    char *str;
+    int i;
+    struct s1 *ptr;
+};
+    static struct s1 a[] = {
+    {"Noida",1,a+1},
+    {"Kochi",2,a+2},
+    {"Chennai",3,a}
+    };
+    struct s1 *p = a;
+    int j;
+    for(j=0;j<=2;j++)
+    {
+        printf("\n%d ",--a[j].i);
+        printf("%s",++a[j].str);
+    }
+}
+```
+## Output of Prgm-17
+```
+0 oida
+1 ochi
+2 hennai
+```
+# Prgm-16
+```
+#include <stdio.h>
+
+
+int main()
+{
+struct s1 
+{
+    char *z;
+    int i;
+    struct s1 *p;
+};
+    static struct s1 a[] = {
+    {"Noida",1,a+1},
+    {"Kochi",2,a+2},
+    {"Chennai",3,a}
+    };
+    struct s1 *ptr = a;
+    printf("\n%s %s %s",a[0].z,ptr->z,a[2].p->z);
+}
+```
+## Output of Prgm-16
+```
+Noida Noida Noida
+```
 # Prgm-15
 ```
 #include <stdio.h>

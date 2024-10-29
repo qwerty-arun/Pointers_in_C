@@ -1,20 +1,25 @@
 #include <stdio.h>
-
-struct a 
-{
-    char ch[7];
-    char *str;
-};
-
-struct b 
-{
-    char *c;
-    struct a ss1;
-};
-
+#include <stdlib.h>
 int main()
 {
-    struct b s2 = {"Bengaluru","Indore","Mizoram"};
-    printf("\n%s %s",s2.c,s2.ss1.str);
-    printf("\n%s %s",++s2.c,++s2.ss1.str);
+    struct node
+{
+        int data;
+        struct node *next;
+    };
+    struct node *p,*q;
+    p=(struct node*)malloc(sizeof(struct node));
+    q=(struct node*)malloc(sizeof(struct node));
+    p->data=30;
+    q->data=40;
+    p->next=q;
+    q->next=p;
+
+    while(p!=NULL)
+    {
+        printf("\n%d",p->data);
+        p=p->next;
+    }
+    free(p);
+    free(q);
 }
