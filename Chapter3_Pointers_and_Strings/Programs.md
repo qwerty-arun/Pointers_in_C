@@ -206,6 +206,7 @@ int main()
 ## Output of Prgm-20: C is the perfect language
 ```
 Each and every character is copied to string 't'. While condition is made compact by combining the assignment, test condition and the incrementation in the while loop itself. The loop goes on till the end of the string s marked by '\0'. Therefore all elements are copied, including the '\0'.
+```
 # Prgm-19
 ```
 #include <stdio.h>
@@ -737,7 +738,6 @@ Returning incorrect pointers:
 In xstrcpy, you return the pointer after the copying process has finished. Instead, you should return the original pointer to the beginning of the destination string.
 Similarly, in xstrcat, the final_str should point to a memory location that can hold the concatenated string. Also, you should return the original pointer to the start of the concatenated string.
 ```
-
 # Prgm-4
 ```
 #include <stdio.h>
@@ -757,16 +757,13 @@ int main()
 	printf("\nLength of string str2= %d",l);
 	l=strlen(str3);
 	printf("\nLength of string str3= %d",l);
-	
 	char str4[20]="";
 	printf("\nLength of string str4= %d",strlen(str4));
 	printf("\nSizeof str4[] = %d",sizeof(str4));
 	printf("\nSizeof("")= %d",sizeof(""));
-
 	strcpy(str3,str1);
 	printf("\nAfter copying, String st3 = %s",str3);
 	printf("\nLength of string str3= %d",strlen(str3));
-
 	k=strcmp(str1,str2);
 	printf("\nComparing str1 and str2,k = %d",k);
 
@@ -779,6 +776,7 @@ int main()
 	return 0;
 }
 ```
+
 ## Output of Prgm-4
 ```
 Sizeof str1[] = 20
@@ -865,4 +863,4 @@ n n n n
 ## `\0` and `0` are not the same. ASCII value of `\0` is 0, whereas ASCII value of `0` is 48.
 ## The null character is important because it is the only way the functions that work with string can know where a string ends.
 ## In fact, a string not terminated by `\0` is not really a string, but merely a collection of characters.
-# "The likelihood of a program crashing is in direct proportion to the number of pointers used in it."
+## "The likelihood of a program crashing is in direct proportion to the number of pointers used in it."
