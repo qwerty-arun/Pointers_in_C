@@ -1,5 +1,3 @@
-// Add two polynomials 
-#include <bits/types/siginfo_t.h>
 # include <stdio.h>
 # include <stdlib.h>
 #include <string.h>
@@ -109,7 +107,7 @@ void poly_addition(struct polynode *x,struct polynode *y, struct polynode **s)
 			y=y->link;
 		}
 		else
-	{
+		{
 			if(x->exp > y->exp)
 			{
 				z->coeff = x->coeff;
@@ -117,7 +115,7 @@ void poly_addition(struct polynode *x,struct polynode *y, struct polynode **s)
 				x=x->link;
 			}
 			else
-		{
+			{
 				if(x->exp == y->exp)
 				{
 					z->coeff = x->coeff + y->coeff;
@@ -128,6 +126,8 @@ void poly_addition(struct polynode *x,struct polynode *y, struct polynode **s)
 			}
 		}
 	}
+	// While loop exits when one of the linked list if fully traversed.
+	// Assign remaining terms of the first polynomial to the result
 	while(x!=NULL)
 	{
 		if(*s==NULL)
@@ -136,7 +136,7 @@ void poly_addition(struct polynode *x,struct polynode *y, struct polynode **s)
 			z=*s;
 		}
 		else
-	{
+		{
 			z->link=malloc(sizeof(struct polynode));
 			z=z->link;
 		}
@@ -144,6 +144,7 @@ void poly_addition(struct polynode *x,struct polynode *y, struct polynode **s)
 		z->exp=x->exp;
 		x=x->link;
 	}
+	// Assign remaining terms of the second polynomial to the result
 	while(y!=NULL)
 	{
 		if(*s==NULL)

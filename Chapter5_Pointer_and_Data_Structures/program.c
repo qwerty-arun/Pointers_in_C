@@ -1,114 +1,151 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+struct node {
+	int data;
+	struct node *link;
+}*newnode,*start,*visit;
 
-struct polynode {
-    float coeff;
-    int exp;
-    struct polynode *link;
-};
+void getdata();
+void append(struct node **q,int num);
+void displaylist(struct node *);
+void selection_sort(int n);
+void bubble_sort(int n);
+int count(struct node *q);
 
-void poly_append(struct polynode **, float, int);
-void poly_multiply(struct polynode *, struct polynode *, struct polynode **);
-void padd(float, int, struct polynode **);
-void display_poly(struct polynode *);
+int main()
+{
+	int n;
+	start=NULL;
+	append(&start,1);
+	append(&start,8);
+	append(&start,5);
+	append(&start,0);
+	// getdata();
+	printf("\nLinked List Before Sorting: ");
+	displaylist(start);
 
-int main() {
-    struct polynode *first, *second, *mult;
-    first = second = mult = NULL;
-    int i = 1;
+	n=count(start);
 
-    poly_append(&first, 3, 5);
-    poly_append(&first, 2, 4);
-    poly_append(&first, 1, 2);
+	bubble_sort(n);
+	printf("\nLinked List After Selection Sorting: ");
+	displaylist(start);
 
-    display_poly(first);
+	// getdata();
+	append(&start,3);
+	append(&start,7);
+	append(&start,2);
+	append(&start,1);
 
-    poly_append(&second, 1, 6);
-    poly_append(&second, 2, 5);
-    poly_append(&second, 3, 4);
-
-    printf("\n\n");
-    display_poly(second);
-
-    printf("\n");
-    while (i++ < 60)
-        printf("-");
-    printf("\n\n");
-
-    poly_multiply(first, second, &mult);
-    display_poly(mult);
-    return 0;
+	printf("\nLinked List Before Sorting: ");
+	displaylist(start);
+	n=count(start);
+	bubble_sort(n);
+	printf("\nLinked List After Bubble Sorting: ");
+	displaylist(start);
 }
 
-void poly_append(struct polynode **q, float x, int y) {
-    struct polynode *temp;
-    temp = *q;
+void getdata()
+{
+	int val,n;
+	char ch;
+	struct node *new;
 
-    if (*q == NULL) {
-        *q = malloc(sizeof(struct polynode));
-        temp = *q;
-    } else {
-        while (temp->link != NULL)
-            temp = temp->link;
-        temp->link = malloc(sizeof(struct polynode));
-        temp = temp->link;
-    }
-    temp->coeff = x;
-    temp->exp = y;
-    temp->link = NULL;
+	new=NULL;
+	do{
+		printf("\nEnter a value: ");
+		scanf("%d",&val);
+		append(&new,val);
+		printf("\nAny More Nodes (Y/N): ");
+		scanf("%c",&ch);
+	}while(ch=='y' || ch=='Y');
+	start=new;
 }
 
-void display_poly(struct polynode *q) {
-    while (q != NULL) {
-        printf("%.1fx^%d", q->coeff, q->exp);
-        q = q->link;
-        if (q != NULL)
-            printf(" + ");
-    }
+void append(struct node **q,int num)
+{
+	struct node *temp;
+	temp=*q;
+	if(*q==NULL)
+	{
+		*q=malloc(sizeof(struct node));
+		temp=*q;
+	}
+	else
+	{
+		while(temp->link!=NULL)
+			temp=temp->link;
+		temp->link=malloc(sizeof(struct node));
+		temp=temp->link;
+	}
+	temp->data=num;
+	temp->link=NULL;
 }
 
-void poly_multiply(struct polynode *x, struct polynode *y, struct polynode **m) {
-    struct polynode *y1;
-    float coeff1;
-    int exp1;
-    y1 = y;
-
-    if (x == NULL || y == NULL)
-        return;
-
-    while (x != NULL) {
-        y = y1;  // Reset y to the start of the second polynomial
-        while (y != NULL) {
-            coeff1 = x->coeff * y->coeff;
-            exp1 = x->exp + y->exp;
-            padd(coeff1, exp1, m);
-            y = y->link;
-        }
-        x = x->link;
-    }
+void displaylist(struct node* q)
+{
+	visit = q;
+	while(visit!=NULL)
+	{
+		printf("%d ",visit->data);
+		visit=visit->link;
+	}
 }
 
-void padd(float c, int e, struct polynode **s) {
-    struct polynode *r, *temp = *s;
-    if (*s == NULL || e > (*s)->exp) {
-        r = malloc(sizeof(struct polynode));
-        r->coeff = c;
-        r->exp = e;
-        r->link = *s;
-        *s = r;
-    } else {
-        while (temp->link != NULL && temp->link->exp > e)
-            temp = temp->link;
+int count(struct node *q)
+{
+	int c=0;
+	while(q!=NULL)
+	{
+		q=q->link;
+		c++;
+	}
+	return c;
+}
 
-        if (temp->exp == e) {
-            temp->coeff += c;
-        } else {
-            r = malloc(sizeof(struct polynode));
-            r->coeff = c;
-            r->exp = e;
-            r->link = temp->link;
-            temp->link = r;
-        }
-    }
+void selection_sort(int n)
+{
+	int i,j,k,temp;
+	struct node *p,*q;
+
+	p=start;
+	for(i=0;i<n-1;i++)
+	{
+		q=p->link;
+		for(j=i+1;j<n;j++)
+		{
+			if(p->data > q->data)
+			{
+				temp=p->data;
+				p->data=q->data;
+				q->data=temp;
+			}
+			q=q->link;
+		}
+		p=p->link;
+	}
+}
+
+void bubble_sort(int n)
+{
+	int i,j,k,temp;
+	struct node *p,*q;
+
+	k=n;
+	for(i=0;i<n-1;i++,k--)
+	{
+		p=start;
+		q=p->link;
+		for(j=i;j<k;j++)
+		{
+			if(p->data > q->data)
+			{
+				temp=p->data;
+				p->data=q->data;
+				q->data=temp;
+			}
+			q=q->link;
+			p=p->link;
+		}
+	}
 }
