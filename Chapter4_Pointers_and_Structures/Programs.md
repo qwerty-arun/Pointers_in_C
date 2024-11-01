@@ -1077,6 +1077,10 @@ void addafter(struct node *q, int loc, int num)
 			return ;
 		}
 	}
+        r=malloc(sizeof(struct node));
+        r->data=num;
+        r->link=temp->link;
+        temp->link=r;
 }
 
 void display(struct node *q)
