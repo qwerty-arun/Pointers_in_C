@@ -1,4 +1,366 @@
-# Prgm-4 : Sorting Linked List
+# Prgm-7: Binary Tree
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct btreenode
+{
+	struct btreenode *left;
+	int data;
+	struct btreenode *right;
+};
+
+void insert(struct btreenode **sr,int num);
+void inorder(struct btreenode *sr);
+void preorder(struct btreenode *sr);
+void postorder(struct btreenode *sr);
+int main()
+{
+	struct btreenode *bt;
+	int req,i=1,num;
+	bt=NULL;
+	printf("\nSpecify the number of data items to be inserted: \n");
+	scanf("%d",&req);
+
+	while(i++ <= req)
+	{
+		printf("\nEnter the data: ");
+		scanf("%d",&num);
+		insert(&bt,num);
+	}
+
+	printf("\nInorder Traversal: ");
+	inorder(bt);
+
+	printf("\nPreorder Traversal: ");
+	preorder(bt);
+
+	printf("\nPostorder Traversal: ");
+	postorder(bt);
+}
+
+void insert(struct btreenode **sr, int num)
+{
+	if(*sr==NULL)
+	{
+		*sr=malloc(sizeof(struct btreenode));
+		(*sr)->left=NULL;
+		(*sr)->data=num;
+		(*sr)->right=NULL;
+		return;
+	}
+	else{
+		if(num < (*sr)->data)
+			insert(&((*sr)->left),num);
+		else
+			insert(&((*sr)->right),num);
+	}
+	return;
+}
+
+void inorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		inorder(sr->left);
+		printf("%d ",sr->data);
+		inorder(sr->right);
+	}
+	else
+		return;
+}
+void preorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		printf("%d ",sr->data);
+		preorder(sr->left);
+		preorder(sr->right);
+	}
+	else
+		return;
+}
+void postorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		postorder(sr->left);
+		postorder(sr->right);
+		printf("%d ",sr->data);
+	}
+	else
+		return;
+```
+## Output of Prgm-7
+```
+Inorder Traversal: 0 1 5 8 9 
+Preorder Traversal: 8 1 0 5 9 
+Postorder Traversal: 0 5 1 9 8 
+```
+# Trees are non linear data structures.
+# Binary trees are those whose nodes have at most two children.
+# Strictly Binary tree: Every non-leaf node has non-empty left and right subtrees.
+# The root of the tree has level 0. Level of any other node in the tree is one more than the level of its father.
+# The depth of a binary tree is the maximum level of any leaf in the tree. This equals the length of the longest path from the root to any leaf.
+# A complete bianry tree of depth d is a strictly binary tree all of whose leaves are at level d.
+# There are three popular methods of traversal: Inorder, preorder and postorder. Traversal means visiting each node in the tree exactly once.
+# preorder: visit the root, traverse the left subtree in preorder, traverse the right subtree in preorder.
+# inorder:  traverse the left subtree in preorder, visit the root, traverse the right subtree in preorder.
+# preorder: traverse the left subtree in preorder, traverse the right subtree in preorder, visit the root.
+# A binary tree that has elements of a left subtree of a node 'n' that are less than the contents of 'n' and all the elements int eh right subtree of 'n' are greater than or equal to the contents of 'n': Binary Search Tree.
+# If a binary search tree is traversed in inorder and elements are printed, they will be in ascending order.
+# Prgm-6 : Circular Queue
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+	int data;
+	struct node* link;
+};
+void addcirq(struct node **, struct node **, int);
+void delcirq(struct node **, struct node **);
+void cirq_display(struct node *);
+int main()
+{
+	struct node *front, *rear;
+	front=rear=NULL;
+
+	addcirq(&front,&rear,10);
+	addcirq(&front,&rear,11);
+	addcirq(&front,&rear,12);
+	addcirq(&front,&rear,13);
+	addcirq(&front,&rear,14);
+	addcirq(&front,&rear,15);
+
+	printf("\nThe circular linked list: \n");
+	cirq_display(front);
+
+	delcirq(&front,&rear);
+	delcirq(&front,&rear);
+	delcirq(&front,&rear);
+
+	printf("\nAfter Deletion: \n");
+	cirq_display(front);
+}
+
+void addcirq(struct node **f, struct node **r, int item)
+{
+	struct node *q;
+	q=malloc(sizeof(struct node));
+	q->data=item;
+	if(*f==NULL)
+		*f=q;
+	else
+		(*r)->link=q;
+	*r=q;
+	(*r)->link=*f;
+}
+
+void delcirq(struct node **f,struct node **r)
+{
+	struct node *q;
+	int item;
+
+	if(*f==NULL)
+	{
+		printf("\nQueue is empty!");
+	}
+	else
+	{
+		if(*f==*r)
+		{
+			item=(*f)->data;
+			free(*f);
+			*f=NULL;
+			*r=NULL;
+		}
+		else
+		{
+			q=*f;
+			item=q->data;
+			*f=(*f)->link;
+			(*r)->link=*f;
+			free(q);
+		}
+	}
+}
+
+void cirq_display(struct node *f)
+{
+	struct node*q=f,*p=NULL;
+	printf("\nFront-->");
+
+	while(q!=p)
+	{
+		printf("%2d ",q->data);
+		q=q->link;
+		p=f;
+	}
+	printf("--> ... front\n");
+}
+```
+## Output of Prgm-6
+```
+The circular linked list: 
+
+Front-->10 11 12 13 14 15 --> ... front
+
+After Deletion: 
+
+Front-->13 14 15 --> ... front
+```
+# Prgm-5 : Sorting Linked List: Pointers
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+void selection_sort(struct node **start);
+void displaylist(struct node *q);
+void append(struct node **q, int num);
+void bubble_sort(struct node **start);
+
+int main() {
+    struct node *start = NULL;
+    append(&start, 1);
+    append(&start, 4);
+    append(&start, 2);
+    append(&start, 3);
+
+    printf("Linked List Before Sorting:\n");
+    displaylist(start);
+
+    selection_sort(&start);
+    printf("\nLinked List After Selection Sorting:\n");
+    displaylist(start);
+
+    // Recreate the list for bubble sort test
+    // start = NULL;
+    append(&start, 8);
+    append(&start, 6);
+    append(&start, 9);
+    append(&start, 10);
+
+    printf("\nLinked List Before Bubble Sorting:\n");
+    displaylist(start);
+
+    bubble_sort(&start);
+    printf("\nLinked List After Bubble Sorting:\n");
+    displaylist(start);
+
+    return 0;
+}
+
+void append(struct node **q, int num) {
+    struct node *temp = *q;
+    if (*q == NULL) {
+        *q = malloc(sizeof(struct node));
+        temp = *q;
+    } else {
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = malloc(sizeof(struct node));
+        temp = temp->next;
+    }
+    temp->data = num;
+    temp->next = NULL;
+}
+
+void displaylist(struct node *q) {
+    struct node* temp = q;
+    while (temp != NULL) {
+        printf("%d\t", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Selection sort using pointer manipulation
+void selection_sort(struct node **start) {
+    struct node **p, **q, **min, *temp;
+
+    for (p = start; *p && (*p)->next; p = &(*p)->next) {
+        min = p;
+        for (q = &(*p)->next; *q; q = &(*q)->next) {
+            if ((*q)->data < (*min)->data) {
+                min = q;
+            }
+        }
+        if (min != p) {
+            // Swap the nodes by manipulating pointers
+            temp = *p;
+            *p = *min;
+            *min = temp;
+
+            temp = (*p)->next;
+            (*p)->next = (*min)->next;
+            (*min)->next = temp;
+        }
+    }
+}
+
+// Bubble sort using pointer manipulation
+void bubble_sort(struct node **start) {
+    int swapped;
+    struct node **p, *temp;
+
+    if (*start == NULL)
+        return;
+
+    do {
+        swapped = 0;
+        p = start;
+
+        while ((*p)->next != NULL) {
+            if ((*p)->data > (*p)->next->data) {
+                // Swap the nodes by pointer manipulation
+                temp = *p;
+                *p = (*p)->next;
+                temp->next = (*p)->next;
+                (*p)->next = temp;
+
+                swapped = 1;
+            }
+            p = &(*p)->next;
+        }
+    } while (swapped);
+}
+```
+## Output of Prgm-5
+```
+Linked List Before Sorting:
+1	4	2	3	
+
+Linked List After Selection Sorting:
+1	2	3	4	
+
+Linked List Before Bubble Sorting:
+1	2	3	4	8	6	9	10	
+
+Linked List After Bubble Sorting:
+1	2	3	4	6	8	9	10
+```
+## Explanation of Prgm-5
+```
+Selection Sort:
+
+We use double pointers (p, q, and min) to keep track of the addresses of the nodes we’re comparing. This makes it easier to swap nodes by changing the pointers directly. </br>
+For each node *p, we find the minimum node (min) in the remaining list.</br>
+If a node with a smaller value is found, we swap the nodes *p and *min by adjusting their next pointers.</br>
+
+Bubble Sort:
+
+This function uses a do-while loop to perform multiple passes through the list until no swaps are necessary.</br>
+We again use double pointers (p) to track the current and next nodes. If the current node has a greater value than the next, we swap them by adjusting the next pointers.</br>
+This process repeats until the list is fully sorted.</br>
+```
+# Prgm-4 : Sorting Linked List: Data
 ```
 #include <stdio.h>
 #include <stdlib.h>

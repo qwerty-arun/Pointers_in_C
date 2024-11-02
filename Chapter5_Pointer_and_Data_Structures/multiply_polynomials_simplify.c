@@ -76,14 +76,15 @@ void poly_multiply(struct polynode *x, struct polynode *y, struct polynode **m) 
     int exp1;
     y1 = y;
 
-    if (x == NULL || y == NULL)
+    if (x == NULL || y == NULL)//if any list is empty, then abort
         return;
 
+    //Multiplying one term of 'x' with each and every term of 'y'. 
     while (x != NULL) {
         y = y1;  // Reset y to the start of the second polynomial
         while (y != NULL) {
-            coeff1 = x->coeff * y->coeff;
-            exp1 = x->exp + y->exp;
+            coeff1 = x->coeff * y->coeff;//multiply coeff
+            exp1 = x->exp + y->exp;//add exponents
             padd(coeff1, exp1, m);
             y = y->link;
         }
@@ -91,8 +92,17 @@ void poly_multiply(struct polynode *x, struct polynode *y, struct polynode **m) 
     }
 }
 
+//Add new term to resulting polynomial list
+//The purpose of padd is to add a new term (with a given coefficient and exponent) to the resulting polynomial list. The function handles three cases:
+
+// Empty List or Higher Exponent Term: If the list is empty or the term’s exponent is higher than the current highest exponent, it adds the term at the beginning of the list.
+
+// Same Exponent Term Exists: If a term with the same exponent is already in the list, it updates the coefficient by adding to the existing coefficient.
+
+// Intermediate Position: If the new term's exponent fits somewhere in between other terms, padd finds the correct position and inserts the new term there.
 void padd(float c, int e, struct polynode **s) {
     struct polynode *r, *temp = *s;
+    //Case 1: Insert at the beginning if list is empty or exponent is the highest 
     if (*s == NULL || e > (*s)->exp) {
         r = malloc(sizeof(struct polynode));
         r->coeff = c;
@@ -100,12 +110,15 @@ void padd(float c, int e, struct polynode **s) {
         r->link = *s;
         *s = r;
     } else {
+        //Traverse the list to find the correct position
         while (temp->link != NULL && temp->link->exp > e)
             temp = temp->link;
 
+        //Case 2: If same exponent is found, add to the coefficient
         if (temp->exp == e) {
             temp->coeff += c;
         } else {
+            //Case 3: Insert the new term at the new position 
             r = malloc(sizeof(struct polynode));
             r->coeff = c;
             r->exp = e;

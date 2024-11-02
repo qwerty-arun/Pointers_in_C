@@ -1,131 +1,118 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node {
+struct node {
     int data;
-    struct Node* next;
+    struct node* next;
 };
 
-// Function prototypes
-void append(struct Node** head, int data);
-void display(struct Node* head);
-void selectionSort(struct Node* head);
-void bubbleSort(struct Node* head);
+void selection_sort(struct node **start);
+void displaylist(struct node *q);
+void append(struct node **q, int num);
+void bubble_sort(struct node **start);
 
 int main() {
-    struct Node* head = NULL;
-    int choice, data;
+    struct node *start = NULL;
+    append(&start, 1);
+    append(&start, 4);
+    append(&start, 2);
+    append(&start, 3);
 
-    // Sample input for the linked list
-    append(&head, 5);
-    append(&head, 2);
-    append(&head, 9);
-    append(&head, 1);
-    append(&head, 7);
+    printf("Linked List Before Sorting:\n");
+    displaylist(start);
 
-    printf("Original list:\n");
-    display(head);
+    selection_sort(&start);
+    printf("\nLinked List After Selection Sorting:\n");
+    displaylist(start);
 
-    // Prompt user to choose sorting method
-    printf("\nChoose sorting technique:\n1. Selection Sort\n2. Bubble Sort\nEnter choice: ");
-    scanf("%d", &choice);
+    // Recreate the list for bubble sort test
+    // start = NULL;
+    append(&start, 8);
+    append(&start, 6);
+    append(&start, 9);
+    append(&start, 10);
 
-    if (choice == 1) {
-        selectionSort(head);
-        printf("\nList after Selection Sort:\n");
-    } else if (choice == 2) {
-        bubbleSort(head);
-        printf("\nList after Bubble Sort:\n");
-    } else {
-        printf("Invalid choice!\n");
-        return 1;
-    }
+    printf("\nLinked List Before Bubble Sorting:\n");
+    displaylist(start);
 
-    display(head);
+    bubble_sort(&start);
+    printf("\nLinked List After Bubble Sorting:\n");
+    displaylist(start);
 
     return 0;
 }
 
-// Function to append a new node to the end of the list
-void append(struct Node** head, int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    struct Node* last = *head;
-
-    newNode->data = data;
-    newNode->next = NULL;
-
-    if (*head == NULL) {
-        *head = newNode;
-        return;
-    }
-
-    while (last->next != NULL)
-        last = last->next;
-
-    last->next = newNode;
-}
-
-// Function to display the linked list
-void display(struct Node* head) {
-    struct Node* temp = head;
-    while (temp != NULL) {
-        printf("%d -> ", temp->data);
+void append(struct node **q, int num) {
+    struct node *temp = *q;
+    if (*q == NULL) {
+        *q = malloc(sizeof(struct node));
+        temp = *q;
+    } else {
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = malloc(sizeof(struct node));
         temp = temp->next;
     }
-    printf("NULL\n");
+    temp->data = num;
+    temp->next = NULL;
 }
 
-// Selection Sort on a linked list
-void selectionSort(struct Node* head) {
-    struct Node *temp1 = head, *temp2, *minNode;
+void displaylist(struct node *q) {
+    struct node* temp = q;
+    while (temp != NULL) {
+        printf("%d\t", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
 
-    while (temp1 != NULL && temp1->next != NULL) {
-        minNode = temp1;
-        temp2 = temp1->next;
+// Selection sort using pointer manipulation
+void selection_sort(struct node **start) {
+    struct node **p, **q, **min, *temp;
 
-        // Find the minimum node in the remaining list
-        while (temp2 != NULL) {
-            if (temp2->data < minNode->data) {
-                minNode = temp2;
+    for (p = start; *p && (*p)->next; p = &(*p)->next) {
+        min = p;
+        for (q = &(*p)->next; *q; q = &(*q)->next) {
+            if ((*q)->data < (*min)->data) {
+                min = q;
             }
-            temp2 = temp2->next;
         }
+        if (min != p) {
+            // Swap the nodes by manipulating pointers
+            temp = *p;
+            *p = *min;
+            *min = temp;
 
-        // Swap the data if a smaller element is found
-        if (minNode != temp1) {
-            int temp = temp1->data;
-            temp1->data = minNode->data;
-            minNode->data = temp;
+            temp = (*p)->next;
+            (*p)->next = (*min)->next;
+            (*min)->next = temp;
         }
-
-        temp1 = temp1->next;
     }
 }
 
-// Bubble Sort on a linked list
-void bubbleSort(struct Node* head) {
+// Bubble sort using pointer manipulation
+void bubble_sort(struct node **start) {
     int swapped;
-    struct Node *ptr1;
-    struct Node *lptr = NULL;
+    struct node **p, *temp;
 
-    // Check for empty list
-    if (head == NULL)
+    if (*start == NULL)
         return;
 
     do {
         swapped = 0;
-        ptr1 = head;
+        p = start;
 
-        while (ptr1->next != lptr) {
-            if (ptr1->data > ptr1->next->data) {
-                // Swap the data
-                int temp = ptr1->data;
-                ptr1->data = ptr1->next->data;
-                ptr1->next->data = temp;
+        while ((*p)->next != NULL) {
+            if ((*p)->data > (*p)->next->data) {
+                // Swap the nodes by pointer manipulation
+                temp = *p;
+                *p = (*p)->next;
+                temp->next = (*p)->next;
+                (*p)->next = temp;
+
                 swapped = 1;
             }
-            ptr1 = ptr1->next;
+            p = &(*p)->next;
         }
-        lptr = ptr1;
     } while (swapped);
 }

@@ -1,151 +1,91 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-struct node {
+
+struct btreenode
+{
+	struct btreenode *left;
 	int data;
-	struct node *link;
-}*newnode,*start,*visit;
+	struct btreenode *right;
+};
 
-void getdata();
-void append(struct node **q,int num);
-void displaylist(struct node *);
-void selection_sort(int n);
-void bubble_sort(int n);
-int count(struct node *q);
-
+void insert(struct btreenode **sr,int num);
+void inorder(struct btreenode *sr);
+void preorder(struct btreenode *sr);
+void postorder(struct btreenode *sr);
 int main()
 {
-	int n;
-	start=NULL;
-	append(&start,1);
-	append(&start,8);
-	append(&start,5);
-	append(&start,0);
-	// getdata();
-	printf("\nLinked List Before Sorting: ");
-	displaylist(start);
+	struct btreenode *bt;
+	int req,i=1,num;
+	bt=NULL;
+	printf("\nSpecify the number of data items to be inserted: \n");
+	scanf("%d",&req);
 
-	n=count(start);
-
-	bubble_sort(n);
-	printf("\nLinked List After Selection Sorting: ");
-	displaylist(start);
-
-	// getdata();
-	append(&start,3);
-	append(&start,7);
-	append(&start,2);
-	append(&start,1);
-
-	printf("\nLinked List Before Sorting: ");
-	displaylist(start);
-	n=count(start);
-	bubble_sort(n);
-	printf("\nLinked List After Bubble Sorting: ");
-	displaylist(start);
-}
-
-void getdata()
-{
-	int val,n;
-	char ch;
-	struct node *new;
-
-	new=NULL;
-	do{
-		printf("\nEnter a value: ");
-		scanf("%d",&val);
-		append(&new,val);
-		printf("\nAny More Nodes (Y/N): ");
-		scanf("%c",&ch);
-	}while(ch=='y' || ch=='Y');
-	start=new;
-}
-
-void append(struct node **q,int num)
-{
-	struct node *temp;
-	temp=*q;
-	if(*q==NULL)
+	while(i++ <= req)
 	{
-		*q=malloc(sizeof(struct node));
-		temp=*q;
+		printf("\nEnter the data: ");
+		scanf("%d",&num);
+		insert(&bt,num);
+	}
+
+	printf("\nInorder Traversal: ");
+	inorder(bt);
+
+	printf("\nPreorder Traversal: ");
+	preorder(bt);
+
+	printf("\nPostorder Traversal: ");
+	postorder(bt);
+}
+
+void insert(struct btreenode **sr, int num)
+{
+	if(*sr==NULL)
+	{
+		*sr=malloc(sizeof(struct btreenode));
+		(*sr)->left=NULL;
+		(*sr)->data=num;
+		(*sr)->right=NULL;
+		return;
+	}
+	else{
+		if(num < (*sr)->data)
+			insert(&((*sr)->left),num);
+		else
+			insert(&((*sr)->right),num);
+	}
+	return;
+}
+
+void inorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		inorder(sr->left);
+		printf("%d ",sr->data);
+		inorder(sr->right);
 	}
 	else
-	{
-		while(temp->link!=NULL)
-			temp=temp->link;
-		temp->link=malloc(sizeof(struct node));
-		temp=temp->link;
-	}
-	temp->data=num;
-	temp->link=NULL;
+		return;
 }
-
-void displaylist(struct node* q)
+void preorder(struct btreenode *sr)
 {
-	visit = q;
-	while(visit!=NULL)
+	if(sr!=NULL)
 	{
-		printf("%d ",visit->data);
-		visit=visit->link;
+		printf("%d ",sr->data);
+		preorder(sr->left);
+		preorder(sr->right);
 	}
+	else
+		return;
 }
-
-int count(struct node *q)
+void postorder(struct btreenode *sr)
 {
-	int c=0;
-	while(q!=NULL)
+	if(sr!=NULL)
 	{
-		q=q->link;
-		c++;
+		postorder(sr->left);
+		postorder(sr->right);
+		printf("%d ",sr->data);
 	}
-	return c;
-}
-
-void selection_sort(int n)
-{
-	int i,j,k,temp;
-	struct node *p,*q;
-
-	p=start;
-	for(i=0;i<n-1;i++)
-	{
-		q=p->link;
-		for(j=i+1;j<n;j++)
-		{
-			if(p->data > q->data)
-			{
-				temp=p->data;
-				p->data=q->data;
-				q->data=temp;
-			}
-			q=q->link;
-		}
-		p=p->link;
-	}
-}
-
-void bubble_sort(int n)
-{
-	int i,j,k,temp;
-	struct node *p,*q;
-
-	k=n;
-	for(i=0;i<n-1;i++,k--)
-	{
-		p=start;
-		q=p->link;
-		for(j=i;j<k;j++)
-		{
-			if(p->data > q->data)
-			{
-				temp=p->data;
-				p->data=q->data;
-				q->data=temp;
-			}
-			q=q->link;
-			p=p->link;
-		}
-	}
+	else
+		return;
 }
