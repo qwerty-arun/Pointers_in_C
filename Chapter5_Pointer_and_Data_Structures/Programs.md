@@ -1,3 +1,221 @@
+## Code for Threaded binary trees doesn't seem to work. It seems to be stuck in an infinite loop.
+# Threaded Binary Trees: Traversal procedure doesn't require tha tany pointers to the node by put on stack. They eliminate overhad involved in initialising, pushing, and popping the stack.
+# These trees have left or right threaded pointers. The lead nodes will point to inorder successor(right threads).
+# Prgm-8: Binary Tree updated with delete operation
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct btreenode
+{
+	struct btreenode *left;
+	int data;
+	struct btreenode *right;
+};
+
+void insert(struct btreenode **sr,int num);
+void inorder(struct btreenode *sr);
+void preorder(struct btreenode *sr);
+void postorder(struct btreenode *sr);
+void delete(struct btreenode**,int num);
+void search(struct btreenode**root,int num,struct btreenode **par,struct btreenode**x,int *found);
+
+int main()
+{
+	struct btreenode *bt;
+	int req,i=0,num,a[]={11,9,13,8,10,12,14,15,7};
+	bt=NULL;
+	// printf("\nSpecify the number of data items to be inserted: \n");
+	// scanf("%d",&req);
+
+	while(i<= 8)
+	{
+		insert(&bt,a[i]);
+		i++;
+	}
+	printf("\nBinary Tree before deletion: ");
+	inorder(bt);
+
+	delete(&bt,10);
+	printf("\nBinary Tree after deletion: ");
+	inorder(bt);
+
+	delete(&bt,14);
+	printf("\nBinary Tree after deletion: ");
+	inorder(bt);
+
+	delete(&bt,8);
+	printf("\nBinary Tree after deletion: ");
+	inorder(bt);
+
+	delete(&bt,13);
+	printf("\nBinary Tree after deletion: ");
+	inorder(bt);
+}
+
+void insert(struct btreenode **sr, int num)
+{
+	if(*sr==NULL)
+	{
+		*sr=malloc(sizeof(struct btreenode));
+		(*sr)->left=NULL;
+		(*sr)->data=num;
+		(*sr)->right=NULL;
+		return;
+	}
+	else{
+		if(num < (*sr)->data)
+			insert(&((*sr)->left),num);
+		else
+			insert(&((*sr)->right),num);
+	}
+	return;
+}
+
+void delete(struct btreenode** root, int num)
+{
+	int found;
+	struct btreenode *parent,*x,*xsucc;
+	if(*root==NULL)
+	{
+		printf("\nTree is empty!");
+		return;
+	}
+	parent=x=NULL;
+
+	search(root,num,&parent,&x,&found);
+	if(found==0)
+	{
+		printf("\nData to be deleted, not found!");
+		return;
+	}
+
+	if(x->left!=NULL && x->right!=NULL)
+	{
+		parent=x;
+		xsucc=x->right;
+
+		while(xsucc->left!=NULL)
+		{
+			parent=xsucc;
+			xsucc=xsucc->left;
+		}
+		x->data=xsucc->data;
+		x=xsucc;
+	}
+	
+	if(x->left==NULL && x->right==NULL)
+	{
+		if(parent->right==x)
+			parent->right=NULL;
+		else
+			parent->left=NULL;
+		free(x);
+		return;
+	}
+
+	if(x->left==NULL && x->right!=NULL)
+	{
+		if(parent->left==x)
+			parent->left=x->right;
+		else
+			parent->right=x->right;
+		free(x);
+		return;
+	}
+
+	if(x->left!=NULL && x->right==NULL)
+	{
+		if(parent->left==x)
+			parent->left=x->left;
+		else
+			parent->right=x->left;
+		free(x);
+		return;
+	}
+}
+
+
+void search(struct btreenode**root,int num,struct btreenode **par,struct btreenode**x,int *found)
+{
+	struct btreenode *q;
+	q=*root;
+	*found=0;
+	*par=NULL;
+	while(q!=NULL)
+	{
+		if(q->data==num)
+		{
+			*found=1;
+			*x=q;
+			return;
+		}
+		if(q->data>num)
+		{
+			*par=q;
+			q=q->left;
+		}
+		else
+		{
+			*par=q;
+			q=q->right;
+		}
+	}
+}
+
+void inorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		inorder(sr->left);
+		printf("%d ",sr->data);
+		inorder(sr->right);
+	}
+	else
+		return;
+}
+void preorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		printf("%d ",sr->data);
+		preorder(sr->left);
+		preorder(sr->right);
+	}
+	else
+		return;
+}
+void postorder(struct btreenode *sr)
+{
+	if(sr!=NULL)
+	{
+		postorder(sr->left);
+		postorder(sr->right);
+		printf("%d ",sr->data);
+	}
+	else
+		return;
+}
+```
+## Output of Prgm-8: 
+```
+Binary Tree before deletion: 7 8 9 10 11 12 13 14 15 
+Binary Tree after deletion: 7 8 9 11 12 13 14 15 
+Binary Tree after deletion: 7 8 9 11 12 13 15 
+Binary Tree after deletion: 7 9 11 12 13 15 
+Binary Tree after deletion: 7 9 11 12 15
+```
+# We can perform deletion operation on the binary tree.
+# There are four cases:
+- a) No node in the tree contains the specified data
+- b) The node containing the data has no children
+- c) The node containing the data has exactly one child
+- d) the node containing the data has two children
+## Case (a) is simple, we simply print the message that the data item is not present in the tree. 
+## Case (b): No children, the memory occupied by this should be freed and either left link or right link of the parent should be set to NULL
+## Case (c): We have to adjust the pointer of the parent such that after deletion it points to the child of the node being deleted
+## Case (d): Its more complex: The idea is to locate the inorder successor, copy its data and reduce the problem to a simple deletion of a node with one or zero children 
 # Prgm-7: Binary Tree
 ```
 #include <stdio.h>
