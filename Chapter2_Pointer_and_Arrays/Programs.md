@@ -1040,7 +1040,7 @@ int main()
 			12,1,9,5,
 			2,3,8,7
 			};
-	display(a,3,4);
+	display(*a,3,4);
 	show(a,3,4);
         print(a,3,4);
 	return 0;
@@ -1064,7 +1064,7 @@ void show(int (*q)[4],int row, int col)
 	int i,j;
 	for(i=0;i<row;i++)
 	{
-		p=q+i;
+		p=*(q+i);
 		for(j=0;j<col;j++)
 			printf("%d ",*(p+j)); //we could still use q[i][j]
 		printf("\n");
