@@ -835,7 +835,7 @@ int main()
 					1,6,3,6
 				}
 			};
-	display(a,2,3,4);
+	display(**a,2,3,4);
 	show(a,2,3,4);
 	print(a,2,3,4);
 	return 0;
